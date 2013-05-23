@@ -14,6 +14,7 @@ object Main extends App {
 """<!DOCTYPE html>
 <html>
   <head>
+    <link href="../style.css" media="all" rel="stylesheet" type="text/css" />
     <title>%s</title>
   </head>
   <body>%s</body>
