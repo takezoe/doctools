@@ -25,15 +25,15 @@ object Processor {
       val sb = new StringBuilder()
   
       BLOCK_PLUGIN_REGEX.findFirstMatchIn(line) match { 
-        case Some(m) => {
+        case Some(m) if(!line.endsWith("}}")) => {
           blockPluginCount = blockPluginCount + 1
           if(blockPluginCount == 1){
             blockPluginName = m.group(1)
-            blockPluginArgs = m.group(2).split(",").map(_.trim).toSeq
+            blockPluginArgs = if(m.group(2) == null) Nil else m.group(2).split(",").map(_.trim).toSeq
           }
           sb.append("{{{{" + plugins.length + "}}}}")
         }
-        case None if(line == "}}" && blockPluginCount > 0) => {
+        case _ if(line == "}}" && blockPluginCount > 0) => {
           blockPluginCount = blockPluginCount - 1
           if(blockPluginCount == 0){
             plugins.append(PluginNode(true, blockPluginName, blockPluginArgs :+ blockPluginBody))
@@ -42,22 +42,20 @@ object Processor {
             blockPluginBody = ""
           }
         }
-        case None if(blockPluginCount > 0) => {
+        case _ if(blockPluginCount > 0) => {
           blockPluginBody = blockPluginBody + line + "\n"
         }
-        case None => {
+        case _ => {
           val m = INLINE_PLUGIN_REGEX.findAllIn(line)
           var i = 0
           while(m.hasNext){
-            if(m.start > 0){
-              m.next
-              val name = m.group(1)
-              val args = m.group(2)
-              sb.append(line.substring(i, m.start))
-              sb.append("{{{{" + plugins.length + "}}}}")
-              plugins.append(PluginNode(false, name, args.split(",").map(_.trim).toSeq))
-              i = m.end
-            }
+            m.next
+            val name = m.group(1)
+            val args = m.group(2)
+            sb.append(line.substring(i, m.start))
+            sb.append("{{{{" + plugins.length + "}}}}")
+            plugins.append(PluginNode(false, name, args.split(",").map(_.trim).toSeq))
+            i = m.end
           }
           if(i < line.length){
             sb.append(line.substring(i))
@@ -92,10 +90,10 @@ object Processor {
       if(inlinePlugins.contains(plugin.name)){
           html = html.replace("{{{{" + i + "}}}}", inlinePlugins(plugin.name)(plugin.args, value))
       } else if(blockPlugins.contains(plugin.name)){
-          html = html.replace("{{{{" + i + "}}}}", blockPlugins(plugin.name)(plugin.args, value))
+          html = html.replace("<p>{{{{" + i + "}}}}</p>", blockPlugins(plugin.name)(plugin.args, value))
       } else {
         if(plugin.isBlock){
-          html = html.replace("{{{{" + i + "}}}}", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
+          html = html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
         } else {
           html = html.replace("{{{{" + i + "}}}}", error(plugin.name + "プラグインは存在しません。"))
         }
