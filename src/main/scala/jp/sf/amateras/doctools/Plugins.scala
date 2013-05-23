@@ -27,7 +27,7 @@ object Plugins {
   val blockPlugins = Map(
       "column" -> ((args: Seq[String], source: String) => {
         if(args.size < 2){
-          error("引数が不足しています。")
+          error("columnプラグインの引数が不足しています。")
         } else {
           "<div class=\"column\">" +
           "<div class=\"header\">COLUMN %s</div>".format(escape(args(0))) +
@@ -37,7 +37,7 @@ object Plugins {
       }),
       "box" -> ((args: Seq[String], source: String) => {
         if(args.size < 2){
-          error("引数が不足しています。")
+          error("boxプラグインの引数が不足しています。")
         } else {
           "<table class=\"box\"><tr>" +
           "<th>%s</th>".format(escape(args(0))) +

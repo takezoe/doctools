@@ -15,6 +15,11 @@ p {
 	margin-bottom: 10px;
 }
 
+span.error {
+	background-color: #dddddd;
+	font-weight: bold;
+}
+
 pre {
 	border: 1px solid silver;
 	background-color: #efefef;
