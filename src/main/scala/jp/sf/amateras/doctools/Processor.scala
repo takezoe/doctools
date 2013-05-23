@@ -95,9 +95,9 @@ object Processor {
           html = html.replace("{{{{" + i + "}}}}", blockPlugins(plugin.name)(plugin.args, value))
       } else {
         if(plugin.isBlock){
-          html = html.replace("{{{{" + i + "}}}}", "<p>" + error(plugin.name + "ƒvƒ‰ƒOƒCƒ“‚Í‘¶İ‚µ‚Ü‚¹‚ñB") + "</p>")
+          html = html.replace("{{{{" + i + "}}}}", "<p>" + error(plugin.name + "ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã¯å­˜åœ¨ã—ã¾ã›ã‚“ã€‚") + "</p>")
         } else {
-          html = html.replace("{{{{" + i + "}}}}", error(plugin.name + "ƒvƒ‰ƒOƒCƒ“‚Í‘¶İ‚µ‚Ü‚¹‚ñB"))
+          html = html.replace("{{{{" + i + "}}}}", error(plugin.name + "ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã¯å­˜åœ¨ã—ã¾ã›ã‚“ã€‚"))
         }
       }
     }

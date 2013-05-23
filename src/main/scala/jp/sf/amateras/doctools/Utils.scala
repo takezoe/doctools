@@ -1,5 +1,6 @@
 package jp.sf.amateras.doctools
 
+import java.io._
 import scala.util.matching.Regex
 
 object Utils {
@@ -16,4 +17,18 @@ object Utils {
     .replaceAll(">", "&lt;")
     .replaceAll("\"", "&quot;")
 
+  def read(file: File): String = {
+    val in = new FileInputStream(file)
+    val buffer = new Array[Byte](in.available())
+    in.read(buffer)
+    in.close
+    new String(buffer, "UTF-8")
+  }
+  
+  def write(file: File, value: String): Unit = {
+    val out = new FileOutputStream(file)
+    out.write(value.getBytes("UTF-8"))
+    out.close
+  }
+    
 }

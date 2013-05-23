@@ -8,7 +8,7 @@ object Plugins {
   val inlinePlugins = Map(
       "anchor" -> ((args: Seq[String], source: String) => {
         if(args.size == 0){
-          error("ƒ‰ƒxƒ‹–¼‚ðŽw’è‚µ‚Ä‚­‚¾‚³‚¢")
+          error("ãƒ©ãƒ™ãƒ«åã‚’æŒ‡å®šã—ã¦ãã ã•ã„")
         } else {
           "<a name=\"%s\"></a>".format(escape(args(0)))
         }
@@ -21,7 +21,7 @@ object Plugins {
   val blockPlugins = Map(
       "column" -> ((args: Seq[String], source: String) => {
         if(args.size < 2){
-          error("ˆø”‚ª•s‘«‚µ‚Ä‚¢‚Ü‚·B")
+          error("å¼•æ•°ãŒä¸è¶³ã—ã¦ã„ã¾ã™ã€‚")
         } else {
           "<div class=\"column\">" +
           "<div class=\"header\">COLUMN %s</div>".format(escape(args(0))) +
