@@ -4,9 +4,46 @@ h1 {
   font-weight: normal;
 }
 
+h4 {
+	border-bottom: 1px solid silver;
+	margin-bottom: 0px;
+}
+
 p {
 	text-indent: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
+
+pre {
+	border: 1px solid silver;
+	background-color: #efefef;
+	padding: 4px;
+}
+
+div.keyword {
+	position: absolute;
+	left: 8px;
+}
+
+div.keyword span {
+	background-color: navy;
+	color: white;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+div.version {
+	text-align: right;
+}
+
+div.version span {
+	background-color: silver;
+	color: white;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
 
 div.column {
 	border: 1px solid navy;
@@ -15,4 +52,26 @@ div.column {
 div.header {
 	border-bottom: 1px dotted navy;
 	background-color: #efefef;
+	color: navy;
+	font-weight: bold;
+	padding: 2px;
+}
+
+table.box {
+	width: 100%;
+}
+	
+table.box th {
+	width: 80px;
+	border: 1px solid navy;
+	background-color: #efefef;
+}
+
+table.box td {
+	border: 1px solid navy;
+}
+
+table.box td ul {
+	margin: 0px;
+	padding-left: 20px;
 }
