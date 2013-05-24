@@ -1,6 +1,6 @@
-#{{anchor section2, bbb, ccc}}第2章 Javaの基本構文
-##{{anchor introduction}} 制御構文
-###{{anchor run_java_app}} 繰り返し処理を行いたい
+#{{anchor section2, 第2章 Javaの基本構文}}
+##{{anchor introduction, 制御構文}}
+###{{anchor run_java_app, 繰り返し処理を行いたい}}
 
 {{keyword for,while,do-while}}
 {{version 6,7,8}}
@@ -19,12 +19,11 @@
 
 forループの構文にはfor文とJavaSE5.0以降で記述可能となった拡張for文の2種類があります。 
 
-{{caption リスト,for文の構文}}
-
-```
+{{caption リスト,for文の構文,for_syntax}}
+{{code
 for (初期化式; 条件式; 更新式)
  文
-```
+}}
 
 初期化式には、繰り返し処理の開始時に１度だけ実行される式です。初期化式の実行後、条件式が評価されます。評価結果がtrueであれば文を実行し、文の実行後は、更新式が実行されてから、条件式の評価に戻ります。評価結果がfalseであれば繰り返し処理は終了します。
 
@@ -36,3 +35,5 @@ javacはほげほげ
 ソースだって書けます
 ```
 }}
+
+詳細については{{link for_syntax,for文の構文}}を参照してください。
