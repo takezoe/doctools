@@ -31,7 +31,7 @@ object Processor {
           blockPluginCount = blockPluginCount + 1
           if(blockPluginCount == 1){
             blockPluginName = m.group(1)
-            blockPluginArgs = if(m.group(2) == null) Nil else m.group(2).split(",").map(_.trim).toSeq
+            blockPluginArgs = if(m.group(2) == null) Nil else splitArgs(m.group(2))
           }
           sb.append("\n{{{{" + plugins.length + "}}}}\n")
         }
@@ -56,7 +56,7 @@ object Processor {
             val args = m.group(2)
             sb.append(line.substring(i, m.start))
             sb.append("{{{{" + plugins.length + "}}}}")
-            plugins.append(PluginNode(false, name, args.split(",").map(_.trim).toSeq))
+            plugins.append(PluginNode(false, name, splitArgs(args)))
             i = m.end
           }
           if(i < line.length){

@@ -11,6 +11,8 @@ object Utils {
   
   def error(message: String) = "<span class=\"error\">%s</span>".format(message)
   
+  def splitArgs(value: String) = value.split(",").map(_.trim).toSeq
+  
   def escape(value: String) = value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&gt;")
