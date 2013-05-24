@@ -87,7 +87,8 @@ object Plugins {
           "<div class=\"content\">NOTE: %s</div>".format(process(context.file, args(0))) +
           "</div>"
         }
-      }),      "box" -> ((args: Seq[String], context: PluginContext) => {
+      }),
+      "box" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 2){
           argumentError("box")
         } else {
