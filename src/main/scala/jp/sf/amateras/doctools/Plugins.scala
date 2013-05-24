@@ -14,19 +14,24 @@ object Plugins {
         }
       }),
       "link" -> ((args: Seq[String], context: PluginContext) => {
-        if(args.size < 2){
+        if(args.size < 1){
           argumentError("link")
-        } else if(args.size == 2){
+        } else if(args.size == 1){
           // in the same page
           val label = args(0)
-          val title = args(1)
-          "<a href=\"#%s\">%s</a>".format(label, title)
+          detectAnchor(label, context.source) match {
+            case Some(title) => "<a href=\"#%s\">%s</a>".format(label, title)
+            case None => error("%sは存在しません。".format(label))
+          }
         } else {
           // in the other name
           val page  = args(0)
           val label = args(1)
-          val title = args(2)
-          "<a href=\"%s.html#%s\">%s</a>".format(page, label, title)
+          val source = read(new java.io.File(page + ".md"))
+          detectAnchor(label, context.source) match {
+            case Some(title) => "<a href=\"#%s\">%s</a>".format(label, title)
+            case None => error("%sは存在しません。".format(label))
+          }
         }
       }),
       "caption" -> ((args: Seq[String], context: PluginContext) => {
@@ -73,7 +78,15 @@ object Plugins {
           "</div>"
         }
       }),
-      "box" -> ((args: Seq[String], context: PluginContext) => {
+      "note" -> ((args: Seq[String], context: PluginContext) => {
+        if(args.size < 1){
+          argumentError("note")
+        } else {
+          "<div class=\"note\">" +
+          "<div class=\"content\">NOTE: %s</div>".format(process(args(0))) +
+          "</div>"
+        }
+      }),      "box" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 2){
           argumentError("box")
         } else {

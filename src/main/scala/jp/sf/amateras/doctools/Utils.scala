@@ -34,5 +34,27 @@ object Utils {
     out.write(value.getBytes("UTF-8"))
     out.close
   }
-    
+  
+  val ANCHOR_REGEX = new Regex("\\{\\{((anchor)|(caption))(\\s+(.*?))?\\}\\}")
+  
+  def detectAnchor(label: String, source: String): Option[String] = {
+    var title: String = null
+    source.lines.foreach { line =>
+      val m = ANCHOR_REGEX.findAllIn(line)
+      var i = 0
+      while(m.hasNext){
+        m.next
+        val name = m.group(1)
+        val args = splitArgs(m.group(5))
+        name match {
+          case "anchor"  if(args.size >= 1 && args(0) == label) => { title = "xx" }
+          case "caption" if(args.size >= 3 && args(2) == label) => { title = args(1) }
+          case _ =>
+        }
+        i = m.end
+      }
+    }
+    Option(title)
+  }
+  
 }

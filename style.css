@@ -62,6 +62,12 @@ div.header {
 	padding: 2px;
 }
 
+div.note {
+	border: 2px dotted red;
+	padding: 2px;
+	background-color: #ffefef;
+}
+
 table.box {
 	width: 100%;
 }
