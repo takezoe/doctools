@@ -10,6 +10,8 @@ import Plugins._
 
 object Processor {
   
+  case class PluginContext(source: String, memo: scala.collection.mutable.Map[String, Any])
+  
   case class PluginNode(isBlock: Boolean, name: String, args: Seq[String])
   
   def process(value: String): String = {
@@ -31,7 +33,7 @@ object Processor {
             blockPluginName = m.group(1)
             blockPluginArgs = if(m.group(2) == null) Nil else m.group(2).split(",").map(_.trim).toSeq
           }
-          sb.append("{{{{" + plugins.length + "}}}}")
+          sb.append("\n{{{{" + plugins.length + "}}}}\n")
         }
         case _ if(line == "}}" && blockPluginCount > 0) => {
           blockPluginCount = blockPluginCount - 1
@@ -85,12 +87,14 @@ object Processor {
         }      
       })
     
+    val context = new PluginContext(value, new scala.collection.mutable.HashMap[String, Any]())
+    
     // replace plugins
     plugins.zipWithIndex.foreach { case (plugin, i) =>
       if(inlinePlugins.contains(plugin.name)){
-          html = html.replace("{{{{" + i + "}}}}", inlinePlugins(plugin.name)(plugin.args, value))
+          html = html.replace("{{{{" + i + "}}}}", inlinePlugins(plugin.name)(plugin.args, context))
       } else if(blockPlugins.contains(plugin.name)){
-          html = html.replace("<p>{{{{" + i + "}}}}</p>", blockPlugins(plugin.name)(plugin.args, value))
+          html = html.replace("<p>{{{{" + i + "}}}}</p>", blockPlugins(plugin.name)(plugin.args, context))
       } else {
         if(plugin.isBlock){
           html = html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
