@@ -14,9 +14,9 @@ object Plugins {
         }
       }),
       "link" -> ((args: Seq[String], context: PluginContext) => {
-        if(args.size == 0){
+        if(args.size < 2){
           argumentError("link")
-        } else if(args.size == 1){
+        } else if(args.size == 2){
           // in the same page
           val label = args(0)
           val title = args(1)
