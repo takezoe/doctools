@@ -47,8 +47,12 @@ object Utils {
         val name = m.group(1)
         val args = splitArgs(m.group(5))
         name match {
-          case "anchor"  if(args.size >= 1 && args(0) == label) => { title = "xx" }
-          case "caption" if(args.size >= 3 && args(2) == label) => { title = args(1) }
+          case "anchor"  if(args.size >= 2 && args(0) == label) => {
+            title = args(1)
+          }
+          case "caption" if(args.size >= 3 && args(2) == label) => {
+            title = args(1)
+          }
           case _ =>
         }
         i = m.end

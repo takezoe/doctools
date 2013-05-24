@@ -6,7 +6,7 @@
 {{version 6,7,8}}
 
 {{box 関連
-- xxxxxxxxxxxxxxxxxxx
+- {{link run_java_app}}
 - xxxxxxxxxxxxxxxxxxx
 }}
 {{box 利用例

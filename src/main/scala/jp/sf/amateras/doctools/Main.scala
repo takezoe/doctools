@@ -10,6 +10,7 @@ object Main extends App {
     dir.listFiles.filter(_.getName.endsWith(".md")).foreach { file =>
       println("Processing %s...".format(file.getAbsolutePath))
       val source = read(file)
+      val page = file.getName.replaceFirst("\\.md$", "")
       val html = 
 """<!DOCTYPE html>
 <html>
@@ -19,9 +20,9 @@ object Main extends App {
     <title>%s</title>
   </head>
   <body>%s</body>
-</html>""".format(file.getName.replaceFirst("\\.md$", ""), process(source))
+</html>""".format(page, process(file, source))
     
-      write(new File(file.getParent, file.getName.replaceFirst("\\.md$", ".html")), html)
+      write(new File(file.getParent, page + ".html"), html)
     }
   }
 }

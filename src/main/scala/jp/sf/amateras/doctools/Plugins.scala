@@ -19,7 +19,8 @@ object Plugins {
         } else if(args.size == 1){
           // in the same page
           val label = args(0)
-          detectAnchor(label, context.source) match {
+          val source = read(context.file)
+          detectAnchor(label, source) match {
             case Some(title) => "<a href=\"#%s\">%s</a>".format(label, title)
             case None => error("%sは存在しません。".format(label))
           }
@@ -74,7 +75,7 @@ object Plugins {
         } else {
           "<div class=\"column\">" +
           "<div class=\"header\">COLUMN %s</div>".format(escape(args(0))) +
-          "<div class=\"content\">%s</div>".format(process(args(1))) +
+          "<div class=\"content\">%s</div>".format(process(context.file, args(1))) +
           "</div>"
         }
       }),
@@ -83,7 +84,7 @@ object Plugins {
           argumentError("note")
         } else {
           "<div class=\"note\">" +
-          "<div class=\"content\">NOTE: %s</div>".format(process(args(0))) +
+          "<div class=\"content\">NOTE: %s</div>".format(process(context.file, args(0))) +
           "</div>"
         }
       }),      "box" -> ((args: Seq[String], context: PluginContext) => {
@@ -92,7 +93,7 @@ object Plugins {
         } else {
           "<table class=\"box\"><tr>" +
           "<th>%s</th>".format(escape(args(0))) +
-          "<td>%s</td>".format(process(args(1))) +
+          "<td>%s</td>".format(process(context.file, args(1))) +
           "</tr></table>"
         }
       }),

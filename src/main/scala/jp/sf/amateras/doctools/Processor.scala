@@ -10,11 +10,12 @@ import Plugins._
 
 object Processor {
   
-  case class PluginContext(source: String, memo: scala.collection.mutable.Map[String, Any])
+  case class PluginContext(file: java.io.File, source: String, 
+      memo: scala.collection.mutable.Map[String, Any])
   
   case class PluginNode(isBlock: Boolean, name: String, args: Seq[String])
   
-  def process(value: String): String = {
+  def process(file: java.io.File, value: String): String = {
     var plugins = new ListBuffer[PluginNode]()
     
     var blockPluginName: String = null
@@ -87,7 +88,7 @@ object Processor {
         }      
       })
     
-    val context = new PluginContext(value, new scala.collection.mutable.HashMap[String, Any]())
+    val context = new PluginContext(file, value, new scala.collection.mutable.HashMap[String, Any]())
     
     // replace plugins
     plugins.zipWithIndex.foreach { case (plugin, i) =>
