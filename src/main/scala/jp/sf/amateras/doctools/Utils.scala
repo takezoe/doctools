@@ -11,6 +11,8 @@ object Utils {
   
   def error(message: String) = "<span class=\"error\">%s</span>".format(message)
   
+  def argumentError(pluginName: String) = error("%sプラグインの引数が不正です。".format(escape(pluginName)))
+  
   def splitArgs(value: String) = value.split(",").map(_.trim).toSeq
   
   def escape(value: String) = value

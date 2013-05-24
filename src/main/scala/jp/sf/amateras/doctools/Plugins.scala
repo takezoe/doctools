@@ -7,18 +7,31 @@ object Plugins {
   
   val inlinePlugins = Map(
       "anchor" -> ((args: Seq[String], context: PluginContext) => {
-        if(args.size == 0){
-          error("ラベル名を指定してください")
+        if(args.size != 2){
+          argumentError("anchor")
         } else {
-          "<a name=\"%s\"></a>".format(escape(args(0)))
+          "<a name=\"%s\">%s</a>".format(escape(args(0)), escape(args(1)))
         }
       }),
-      "ref" -> ((args: Seq[String], context: PluginContext) => {
-        ""
+      "link" -> ((args: Seq[String], context: PluginContext) => {
+        if(args.size == 0){
+          argumentError("link")
+        } else if(args.size == 1){
+          // in the same page
+          val label = args(0)
+          val title = args(1)
+          "<a href=\"#%s\">%s</a>".format(label, title)
+        } else {
+          // in the other name
+          val page  = args(0)
+          val label = args(1)
+          val title = args(2)
+          "<a href=\"%s.html#%s\">%s</a>".format(page, label, title)
+        }
       }),
       "caption" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 2){
-          error("captionプラグインの引数が不足しています。")
+          argumentError("caption")
         } else {
           val category = args(0)
           val title    = args(1)
@@ -52,7 +65,7 @@ object Plugins {
   val blockPlugins = Map(
       "column" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 2){
-          error("columnプラグインの引数が不足しています。")
+          argumentError("column")
         } else {
           "<div class=\"column\">" +
           "<div class=\"header\">COLUMN %s</div>".format(escape(args(0))) +
@@ -62,7 +75,7 @@ object Plugins {
       }),
       "box" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 2){
-          error("boxプラグインの引数が不足しています。")
+          argumentError("box")
         } else {
           "<table class=\"box\"><tr>" +
           "<th>%s</th>".format(escape(args(0))) +
@@ -72,7 +85,7 @@ object Plugins {
       }),
       "code" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 1){
-          error("codeプラグインの引数が不足しています。")
+          argumentError("code")
         } else {
           "<pre>%s</pre>".format(escape(args(0)))
         }
