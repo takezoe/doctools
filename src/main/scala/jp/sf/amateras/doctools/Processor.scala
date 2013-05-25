@@ -6,17 +6,16 @@ import org.pegdown.ast.WikiLinkNode
 import scala.util.matching.Regex
 import scala.collection.mutable.ListBuffer
 import Utils._
-import Plugins._
 
 object Processor {
   
-  case class PluginContext(file: java.io.File, source: String, 
+  case class PluginContext(file: java.io.File, source: String, plugins: Plugins,
       memo: scala.collection.mutable.Map[String, Any])
   
   case class PluginNode(isBlock: Boolean, name: String, args: Seq[String])
   
-  def process(file: java.io.File, value: String): String = {
-    var plugins = new ListBuffer[PluginNode]()
+  def process(file: java.io.File, value: String, plugins: Plugins): String = {
+    var pluginNodes = new ListBuffer[PluginNode]()
     
     var blockPluginName: String = null
     var blockPluginArgs: Seq[String] = Nil
@@ -34,12 +33,12 @@ object Processor {
             blockPluginName = m.group(1)
             blockPluginArgs = if(m.group(2) == null) Nil else splitArgs(m.group(2))
           }
-          sb.append("\n{{{{" + plugins.length + "}}}}\n")
+          sb.append("\n{{{{" + pluginNodes.length + "}}}}\n")
         }
         case _ if(line == "}}" && blockPluginCount > 0) => {
           blockPluginCount = blockPluginCount - 1
           if(blockPluginCount == 0){
-            plugins.append(PluginNode(true, blockPluginName, blockPluginArgs :+ blockPluginBody))
+            pluginNodes.append(PluginNode(true, blockPluginName, blockPluginArgs :+ blockPluginBody))
             blockPluginName = null
             blockPluginArgs = Nil
             blockPluginBody = ""
@@ -56,8 +55,8 @@ object Processor {
             val name = m.group(1)
             val args = m.group(2)
             sb.append(line.substring(i, m.start))
-            sb.append("{{{{" + plugins.length + "}}}}")
-            plugins.append(PluginNode(false, name, splitArgs(args)))
+            sb.append("{{{{" + pluginNodes.length + "}}}}")
+            pluginNodes.append(PluginNode(false, name, splitArgs(args)))
             i = m.end
           }
           if(i < line.length){
@@ -88,19 +87,18 @@ object Processor {
         }      
       })
     
-    val context = new PluginContext(file, value, new scala.collection.mutable.HashMap[String, Any]())
+    val context = new PluginContext(file, value, plugins, new scala.collection.mutable.HashMap[String, Any]())
     
     // replace plugins
-    plugins.zipWithIndex.foreach { case (plugin, i) =>
-      if(inlinePlugins.contains(plugin.name)){
-          html = html.replace("{{{{" + i + "}}}}", inlinePlugins(plugin.name)(plugin.args, context))
-      } else if(blockPlugins.contains(plugin.name)){
-          html = html.replace("<p>{{{{" + i + "}}}}</p>", blockPlugins(plugin.name)(plugin.args, context))
-      } else {
-        if(plugin.isBlock){
-          html = html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
-        } else {
-          html = html.replace("{{{{" + i + "}}}}", error(plugin.name + "プラグインは存在しません。"))
+    pluginNodes.zipWithIndex.foreach { case (plugin, i) =>
+      html = plugins.getInlinePlugin(plugin.name) match {
+        case Some(f) => html.replace("{{{{" + i + "}}}}", f(plugin.args, context))
+        case None    => {
+          plugins.getBlockPlugin(plugin.name) match {
+            case Some(f)                 => html.replace("<p>{{{{" + i + "}}}}</p>", f(plugin.args, context))
+            case None if(plugin.isBlock) => html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
+            case None                    => html.replace("{{{{" + i + "}}}}", error(plugin.name + "プラグインは存在しません。"))
+          }
         }
       }
     }

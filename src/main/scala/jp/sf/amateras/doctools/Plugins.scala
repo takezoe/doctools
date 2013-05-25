@@ -3,7 +3,19 @@ package jp.sf.amateras.doctools
 import Utils._
 import Processor._
 
-object Plugins {
+class Plugins {
+  
+  def getInlinePlugin(name: String): Option[(Seq[String], PluginContext) => String] = {
+    DefaultPlugins.inlinePlugins.get(name)
+  }
+  
+  def getBlockPlugin(name: String): Option[(Seq[String], PluginContext) => String] = {
+    DefaultPlugins.blockPlugins.get(name)
+  }
+  
+}
+
+object DefaultPlugins {
   
   val inlinePlugins = Map(
       "anchor" -> ((args: Seq[String], context: PluginContext) => {
@@ -75,7 +87,7 @@ object Plugins {
         } else {
           "<div class=\"column\">" +
           "<div class=\"header\">COLUMN %s</div>".format(escape(args(0))) +
-          "<div class=\"content\">%s</div>".format(process(context.file, args(1))) +
+          "<div class=\"content\">%s</div>".format(process(context.file, args(1), context.plugins)) +
           "</div>"
         }
       }),
@@ -84,7 +96,7 @@ object Plugins {
           argumentError("note")
         } else {
           "<div class=\"note\">" +
-          "<div class=\"content\">NOTE: %s</div>".format(process(context.file, args(0))) +
+          "<div class=\"content\">NOTE: %s</div>".format(process(context.file, args(0), context.plugins)) +
           "</div>"
         }
       }),
@@ -94,7 +106,7 @@ object Plugins {
         } else {
           "<table class=\"box\"><tr>" +
           "<th>%s</th>".format(escape(args(0))) +
-          "<td>%s</td>".format(process(context.file, args(1))) +
+          "<td>%s</td>".format(process(context.file, args(1), context.plugins)) +
           "</tr></table>"
         }
       }),

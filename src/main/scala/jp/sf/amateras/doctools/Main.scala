@@ -20,7 +20,7 @@ object Main extends App {
     <title>%s</title>
   </head>
   <body>%s</body>
-</html>""".format(page, process(file, source))
+</html>""".format(page, process(file, source, new Plugins()))
     
       write(new File(file.getParent, page + ".html"), html)
     }
