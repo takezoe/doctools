@@ -32,8 +32,10 @@ object Processor {
           if(blockPluginCount == 1){
             blockPluginName = m.group(1)
             blockPluginArgs = if(m.group(2) == null) Nil else splitArgs(m.group(2))
+            sb.append("\n{{{{" + pluginNodes.length + "}}}}\n")
+          } else {
+            blockPluginBody = blockPluginBody + line + "\n"
           }
-          sb.append("\n{{{{" + pluginNodes.length + "}}}}\n")
         }
         case _ if(line == "}}" && blockPluginCount > 0) => {
           blockPluginCount = blockPluginCount - 1
@@ -42,6 +44,8 @@ object Processor {
             blockPluginName = null
             blockPluginArgs = Nil
             blockPluginBody = ""
+          } else {
+            blockPluginBody = blockPluginBody + line + "\n"
           }
         }
         case _ if(blockPluginCount > 0) => {
