@@ -102,7 +102,7 @@ content
 
 ###code
 
-Display source code in the <pre>. It's highlighted by google-code-prettify.
+Display source code in the &lt;pre&gt;. It is highlighted by google-code-prettify.
 
 {{code
 content
