@@ -83,9 +83,11 @@ content
 
 Write the column.
 
+```
 {{column title
 content
 }}
+```
 
 - title: the title of the column
 - content: the content of the column
@@ -94,9 +96,11 @@ content
 
 Write the note.
 
+```
 {{note
 content
 }}
+```
 
 - content: the content of the note
 
@@ -104,8 +108,10 @@ content
 
 Display source code in the &lt;pre&gt;. It is highlighted by google-code-prettify.
 
+```
 {{code
 content
 }}
+```
 
 - content: the source code
