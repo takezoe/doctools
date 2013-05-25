@@ -1,43 +1,446 @@
-#{{anchor section2, 第2章 Javaの基本構文}}
-##{{anchor introduction, 制御構文}}
-###{{anchor run_java_app, 繰り返し処理を行いたい}}
+#{{anchor section1,第1章　準備}}
+##{{anchor setup,セットアップ}}
 
-{{keyword for,while,do-while}}
-{{version 6,7,8}}
+###{{anchor SETUP_SCALA,Scalaのセットアップ}}
 
 {{box 関連
-- {{link run_java_app}}
-- xxxxxxxxxxxxxxxxxxx
+- {{link SETUP_ECLIPSE}}
 }}
 {{box 利用例
-- 条件や配列に応じた繰り返し処理をしたい場合
+- コマンドラインツールでScalaによる開発を行う場合
 }}
 
-同じ処理を繰り返し実行したい場合、for文、while文、do-while文での繰り返し構文が利用できます。 
+Scalaの動作にはJava 5以上が必要なので事前にインストールしておく必要があります。Javaの実行環境は以下のURLから入手することができます。
 
-####for文
+- http://www.java.com/ja/
 
-forループの構文にはfor文とJavaSE5.0以降で記述可能となった拡張for文の2種類があります。 
+Scalaの実行環境は以下のURLから入手することができます。
 
-{{caption リスト,for文の構文,for_syntax}}
-{{code
-for (初期化式; 条件式; 更新式)
- 文
-}}
+- http://www.scala-lang.org/downloads
 
-初期化式には、繰り返し処理の開始時に１度だけ実行される式です。初期化式の実行後、条件式が評価されます。評価結果がtrueであれば文を実行し、文の実行後は、更新式が実行されてから、条件式の評価に戻ります。評価結果がfalseであれば繰り返し処理は終了します。
+{{ref_image ScalaDownload.png,w500}}
+{{caption 図,Scalaのダウンロードページ}}
 
-初期化式では、ループ制御用変数が定義できます。初期化式で定義した変数はfor文内にスコープを限定できるため、ループ制御用の変数は初期化式にて定義することが望ましいです。 
+インストーラも用意されていますが、ここではアーカイブファイルから手動でインストールする方法を紹介します。
 
-{{column JDKに付属するツールの使い方
-javacはほげほげ
-```
-ソースだって書けます
-```
-}}
+まずは上記のページからプラットフォームに応じて以下のいずれかのファイルをダウンロードします。
 
-詳細については{{link for_syntax}}を参照してください。
+- scala-2.9.1-1.zip（Windowsの場合）
+- scala-2.9.1-1.tgz（Linux、MacOS Xの場合）
+
+ダウンロードしたアーカイブを適当なディレクトリに展開します。Scalaを使用するために必要なコマンド群は展開したディレクトリ配下のbinディレクトリに格納されているので、このディレクトリを環境変数PATHに追加するだけでインストールは完了です。
 
 {{note
-Javaのバージョンに注意してください。
+ScalaIDE for Eclipse（{{link SETUP_ECLIPSE}}参照）を使用する場合、ScalaIDE for EclipseにScalaのランタイムが含まれているため予めScalaをインストールしておく必要はありません。また、sbt（[[Chapter11]]参照）を使用する場合もsbtの実行時にScalaランタイムがダウンロードされるため、Scalaのインストールは不要です（sbt自身の動作に必要なScalaランタイムはsbtのjarファイル内に含まれています）。
 }}
+
+###{{anchor SETUP_ECLIPSE, Eclipseのセットアップ}}
+
+{{keyword Eclipse,ScalaIDE for Eclipse}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+}}
+{{box 利用例
+- 統合開発環境を使用してScalaによる開発を行いたい場合
+}}
+
+EclipseはJava向けの統合開発環境として広く利用されていますが、プラグインによる拡張が可能でJava以外の言語での開発にも対応することができます。EclipseにScalaIDE for Eclipse（http://scala-ide.org/）をインストールすることでEclipse上でScalaによるプログラミングを行うことができます。
+
+本書の執筆時点での最新版であるScalaIDE for Eclipse 2.0.0は以下の環境で動作します。
+
+- JDK 5もしくは6
+- JDTを含むEclipse 3.6 Helios（Eclipse 3.7 Indigoにインストールすることも可能ですが、一部の機能が動作しないようです）
+
+####ScalaIDE for Eclipseのインストール
+
+まずはEclipseをインストールします。本家eclipse.orgで配布されているパッケージを使用する場合は以下のURLからEclipse Classic、Eclipse IDE for Java DevelopersなどJDTが含まれているパッケージをダウンロードします。
+
+- http://www.eclipse.org/downloads/
+
+日本語化されたEclipseを使用したい場合はPleiadesがおすすめです。Pleiadesは以下のURLから入手することができます。
+
+- http://mergedoc.sourceforge.jp/#pleiades.html
+
+ScalaIDE for EclipseはEclipseの更新マネージャを使用してインストールできます。使用するScalaのバージョンによって更新サイトのURLが異なるので注意してください。
+
+- Scala 2.9系向け ... http://download.scala-ide.org/releases-29/stable/site
+- Scala 2.8系向け ... http://download.scala-ide.org/releases-28/stable/site
+
+####{{anchor API_DOC, ScalaのAPIリファレンスを参照したい}}
+
+{{keyword Scaladoc}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+- {{link SCALADOC,Chapter08}}
+}}
+{{box 利用例
+- Scalaの標準APIを知りたい場合
+}}
+
+Scalaのダウンロードページ（http://www.scala-lang.org/downloads）からAPIリファレンス（scala-2.9.1-1-devel-docs.tgz）をダウンロードすることができます。このアーカイブにはScalaのサンプルコードも含まれています。
+
+また、APIリファレンスはオンラインでも公開されており、以下のURLで参照することができます。
+
+- http://www.scala-lang.org/api/current/index.html
+
+{{ref_image API_Reference.png,w500}}
+{{caption 図,Scala標準APIのリファレンス}}
+
+##{{anchor COMPILE_AND_RUN,コンパイルと実行}}
+
+###{{anchor HELLO_WORLD, Scalaプログラムを実行したい}}
+
+{{keyword scalacコマンド,scalaコマンド}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+- {{link REPL}}
+}}
+{{box 利用例
+- Scalaプログラムをコマンドラインで実行したい場合
+}}
+
+ScalaプログラムはJavaのクラスファイルにコンパイルしてから実行します。
+
+例として以下のようなプログラムをHelloWorld.scalaというファイル名で適当な場所に保存します。日本語を含む場合、ファイルの文字コードはUTF-8で保存する必要があります。
+
+{{caption リスト,HelloWorld.scala}}
+{{code
+object HelloWorld {
+  def main(args: Array[String]): Unit = {
+    println("Hello World!")
+  }
+}
+}}
+
+{{note 1行に複数の文を記述する
+ScalaではJavaと違って行末に;（セミコロン）を記述する必要はありません（セミコロンを記述しても問題ありません）が、1行に複数の文を記述したい場合はセミコロンで区切ります。
+{{code
+print("Hello "); println("Scala!")
+}}
+}}
+
+このソースファイルを以下のようにしてscalacコマンドでコンパイルします。
+
+{{code
+C:\helloworld>scalac HelloWorld.scala
+
+C:\helloworld>
+}}
+
+コンパイルが成功するとJavaVM上で動作するクラスファイル（*.classファイル）が生成されます。
+
+{{code
+C:\helloworld>dir
+ ドライブ C のボリューム ラベルは Windows7_OS です
+ ボリューム シリアル番号は 0880-19E9 です
+
+ C:\helloworld のディレクトリ
+
+2012/04/08  17:23    <DIR>          .
+2012/04/08  17:23    <DIR>          ..
+2012/04/08  17:23               605 HelloWorld$.class
+2012/04/08  17:23               637 HelloWorld.class
+2012/04/08  17:23               101 HelloWorld.scala
+               3 個のファイル               1,343 バイト
+               2 個のディレクトリ  58,631,909,376 バイトの空き領域
+
+C:\helloworld>
+}}
+
+{{column コンパイル時の警告を表示する
+scalacコマンドでのコンパイル時、コンパイルエラーではないものの利用が推奨されないAPIを使用している場合などコンパイラが警告を報告してくれる場合があります。scalacコマンドはデフォルトでは以下のように警告の件数のみ表示されます。
+{{code
+C:\helloworld>scalac HelloWorld.scala
+warning: there were 1 deprecation warnings; re-run with -deprecation for details
+
+one warning found
+
+C:\helloworld>
+}}
+scalacコマンドに-deprecationオプションを付与してコンパイルを行うことで警告の内容を確認することができます。
+{{code
+C:\helloworld>scalac -deprecation HelloWorld.scala
+HelloWorld.scala:3: warning: method format in object Predef is deprecated: Use formatString.format(args: _*) or arg.formatted(formatString) instead
+    println(format("Hello %s!", args(0)))
+            ^
+one warning found
+
+C:\helloworld>
+}}
+}}
+
+続いてscalaコマンドでコンパイルしたプログラムを実行します。
+
+{{code
+C:\helloworld>scala HelloWorld
+Hello World!
+
+C:\helloworld>
+}}
+
+mainメソッドの引数にはコマンドラインから指定した引数が文字列型の配列で渡されます。
+
+{{caption リスト,HelloWorldArgs.scala,HELLO_WORLD_ARGS_SCALA}}
+{{code
+object HelloWorldArgs {
+  def main(args: Array[String]): Unit = {
+    val name: String = args(0)
+    println("Hello %s!".format(name))
+  }
+}
+}}
+
+実行例は以下のようになります。
+
+{{code
+C:\helloworld>scalac HelloWorldArgs.scala
+
+C:\helloworld>scala HelloWorldArgs Scala
+Hello Scala!
+
+C:\helloworld>
+}}
+
+{{column Appトレイト
+scala.Appトレイトを使用すると実行可能なScalaプログラムを簡単に作成することができます。
+
+以下は{{link HELLO_WORLD_ARGS_SCALA}}と同じ処理をAppトレイトを用いて実装した場合の例です。Appトレイトを使用することでmainメソッドの定義を省略できます。また、mainメソッドの引数として受け取っていたコマンドライン引数はAppトレイトに定義されているargsフィールドとして参照することができます。
+
+{{caption リスト,HelloWorldApp.scala}}
+{{list
+object HelloWorldApp extends App {
+  val name: String = args(0)
+  println("Hello %s!".format(name))
+}
+}}
+}}
+
+###{{anchor STRUCTURE, Scalaのディレクトリ・ファイル構成を知りたい}}
+
+{{keyword パッケージ}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+- {{link PACKAGE,Chapter02}}
+- {{link CLASS_DEFINITION,Chapter04}}
+}}
+{{box 利用例
+- Scalaのディレクトリ・ファイル構成を知りたい場合
+}}
+
+Scalaでは1つのソースファイルに複数のpublicクラスを定義したり、ディレクトリ構造と関係なくパッケージを定義することができます。
+
+Javaではソースファイルやディレクトリ構造に以下のような制約がありますが、Scalaにはこのような制約はありません。
+
+- パッケージと同じ構造のディレクトリに配置すること
+- 1つのソースファイルに定義できるpublicクラスは1つのみ
+- ソースファイル名とpublicクラスのクラス名が一致していなくてはならない
+
+{{caption リスト,1つのソースファイルに複数のクラスを定義}}
+{{code
+package jp.sf.amateras.scala
+
+class HelloWorld {
+  ...
+}
+
+class HelloWorld2 {
+  ...
+}
+}}
+
+パッケージ宣言に中括弧（{ ... }）を使用することで1つのソースファイル内に複数のパッケージを定義することもできます。
+
+{{caption リスト,1つのソースファイルに複数のパッケージを定義}}
+{{code
+package jp.sf.amateras.scala.helloworld1 {
+  ...
+}
+
+package jp.sf.amateras.scala.helloworld1 {
+  ...
+}
+}}
+
+このようにScalaではファイルやディレクトリの構造と実際のクラスやパッケージとの間に物理的な関連がなく、自由度の高い定義が可能になっています。しかし、関連の薄い複数のクラスを1つのソースファイルで定義したり、ディレクトリ構造を無視したパッケージ構成を定義すると、目的のクラスがどこで定義されているのかを探し出すことが難しくなってしまいます。1つのソースファイルには関連するものをまとめ、わかりやすいファイル名を付ける、また特に理由のない限りパッケージとディレクトリの構造は一致させておくとよいでしょう。
+
+###{{anchor SCRIPT, Scalaプログラムをコンパイルせずに実行したい}}
+
+{{keyword scalaコマンド}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+- {{link HELLO_WORLD}}
+}}
+{{box 利用例
+}}
+
+scalaコマンドにScalaプログラムのソースコードを指定することで、コンパイルを行わずソースコードを直接実行することができます。
+
+{{code
+C:\helloworld>scala HelloWorld.scala Scala
+Hello Scala!
+
+C:\helloworld>
+}}
+
+また、scalaコマンドでは以下のようにScalaコードを直接記述したスクリプトファイルを実行することもできます。
+
+{{caption リスト,script.scala}}
+{{code
+// mainメソッドを定義せずにScalaコードを記述できる
+println("Hello World!")
+
+// コマンドライン引数も取得可能
+println("Hello %s!".format(args(0)))
+}}
+
+{{code
+C:\scala-2.9.0.1>scala script.scala Scala
+Hello World!
+Hello Scala!
+
+C:\scala-2.9.0.1>
+}}
+
+{{column Scalaでワンライナーを実行する
+scalaコマンドに-eオプションを付けることでコマンドラインからワンライナーを実行することができます。
+{{code
+C:\helloworld>scala -e "println(\"Hello World!\")"
+Hello World!
+
+C:\helloworld>
+}}
+}}
+
+###{{anchor CLASSPATH, クラスパスを指定したい}}
+
+{{keyword scalaコマンド,scalacコマンド,クラスパス}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+}}
+{{box 利用例
+- Scalaプログラムでライブラリを使用したい場合
+}}
+
+scalacコマンドやscalaコマンドに-cpオプションを指定します。
+
+ScalaではScalaで書かれたライブラリはもちろんのこと、既存の膨大なJavaライブラリを使用することができます。これらのライブラリはjarファイルというアーカイブ形式で提供されており、使用するにはこのjarファイルをクラスパスに追加する必要があります。
+
+以下の例はApache Commons IO（http://commons.apache.org/io/）を使用したScalaプログラムで、http://www.google.co.jp/ の内容を取得して標準出力に出力するというものです。
+
+{{caption リスト,Commons IOを使用したScalaプログラム（CommonsIOSample.scala）}}
+{{code
+import java.io._
+import java.net._
+import org.apache.commons.io._
+
+object CommonsIOSample extends App {
+  val in: InputStream = new URL("http://www.google.co.jp/").openStream()
+  try {
+    println(IOUtils.toString(in))
+  } finally {
+    IOUtils.closeQuietly(in)
+  }
+}
+}}
+
+このプログラムをコンパイル、実行するにはCommons IOのjarファイルが必要になります。以下のようにscalacコマンドに-cpオプションでjarファイルのパスを指定してコンパイルします。複数のjarファイルを指定する場合は;で区切ります（LinuxやMacの場合は;でなく:で区切ります）。
+
+{{code
+C:\helloworld> scalac -cp commons-io-2.0.1.jar CommonsIOSample.scala
+}}
+
+同様に実行時も-cpオプションで使用するjarファイルを指定します。
+
+{{code
+C:\helloworld> scala -cp .;commons-io-2.0.1.jar CommonsIOSample
+}}
+
+{{note クラスパス指定時の注意点
+scalaコマンドに-cpオプションを指定しない場合デフォルトでカレントディレクトリがクラスパスに含まれますが、-cpオプションを指定する場合は明示的に指定する必要があります。そのため上記の実行例では-cpオプションの先頭で.（カレントディレクトリ）を指定しているということに注意してください。
+}}
+
+###{{anchor RUN_JAR, jarファイルを実行したい}}
+
+{{keyword scalaコマンド,jarファイル}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+}}
+{{box 利用例
+- jarファイルにアーカイブしたScalaプログラムを実行したい場合
+}}
+
+まずは実行可能なjarファイルを作成します。どのクラスを実行するかを指定するためのマニフェストファイルを以下のような内容で作成します。
+
+{{caption リスト,MANIFEST.MF}}
+{{code
+Main-Class: HelloWorldArgs
+}}
+
+jarファイルの作成にはJDKに含まれているjarコマンドを使用します。
+
+{{code
+C:\scala-2.9.0.1>jar cvfm HelloWorldArgs.jar MANIFEST.MF *.class
+マニフェストが追加されました。
+HelloWorldArgs$.class を追加中です。(入 = 970) (出 = 558)(42% 収縮されました)
+HelloWorldArgs.class を追加中です。(入 = 662) (出 = 539)(18% 収縮されました)
+
+C:\helloworld>
+}}
+
+実行可能なjarファイルは以下のようにしてscalaコマンドで実行することができます。
+
+{{code
+C:\helloworld>scala HelloWorldArgs.jar Naoki
+Hello Naoki!
+
+C:\helloworld>
+}}
+
+###{{anchor REPL, 対話型シェル（REPL）を使いたい}}
+
+{{keyword scalaコマンド}}
+{{version 2.9, 2.10}}
+
+{{box 関連
+- {{link HELLO_WORLD}}
+}}
+{{box 利用例
+- Scalaプログラムの動作を素早く確認したい場合
+}}
+
+scalaコマンドを実行するクラスやjarファイルなどを指定せずに実行すると対話型のシェルを起動することができます。
+
+{{code
+C:\helloworld>scala
+Welcome to Scala version 2.9.1-1 (Java HotSpot(TM) Client VM, Java 1.6.0_31).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala>
+}}
+
+対話型シェルでは任意のScalaコードを実行することができるため、ライブラリの動作を確認したり、ちょっとしたコードを試すのに適しています。なお、対話型シェルは:quitで終了します。
+
+{{code
+scala> val name = "Naoki"
+name: java.lang.String = Naoki
+
+scala> val message = "Hello " + name + "!"
+message: java.lang.String = Hello Naoki!
+
+scala> println(message)
+Hello Naoki!
+
+scala> :quit
+ 
+C:\helloworld>
+}}
+
+対話型シェルで標準ライブラリ以外のライブラリを使用するにはScalaプログラムの実行時と同様、-cpオプションでクラスパスを指定します（{{link CLASSPATH}}参照）。ただし、多くのライブラリを使用している場合クラスパスの設定は非常に面倒です。[[Chapter11]]で取り上げているsbtを使用するとプロジェクトで使用しているライブラリをクラスパスに追加した状態で簡単に対話型シェルを起動することができます。詳細については{{link SBT_BUILD,Chapter11}}を参照してください。
