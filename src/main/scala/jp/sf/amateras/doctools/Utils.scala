@@ -22,11 +22,15 @@ object Utils {
     .replaceAll("\"", "&quot;")
 
   def read(file: File): String = {
-    val in = new FileInputStream(file)
-    val buffer = new Array[Byte](in.available())
-    in.read(buffer)
-    in.close
-    new String(buffer, "UTF-8")
+    if(!file.exists){
+      ""
+    } else {
+      val in = new FileInputStream(file)
+      val buffer = new Array[Byte](in.available())
+      in.read(buffer)
+      in.close
+      new String(buffer, "UTF-8")
+    }
   }
   
   def write(file: File, value: String): Unit = {

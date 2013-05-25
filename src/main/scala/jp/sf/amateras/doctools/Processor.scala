@@ -68,7 +68,29 @@ object Processor {
     }.mkString("\n")
     
     // process markdown
-    var html = new PegDownProcessor(Extensions.AUTOLINKS|Extensions.WIKILINKS|Extensions.FENCED_CODE_BLOCKS)
+    var html = processMarkdown(markdown)
+    
+    // replace plugins
+    val context = new PluginContext(file, value, plugins, new scala.collection.mutable.HashMap[String, Any]())
+    
+    pluginNodes.zipWithIndex.foreach { case (plugin, i) =>
+      html = plugins.getInlinePlugin(plugin.name) match {
+        case Some(f) => html.replace("{{{{" + i + "}}}}", f(plugin.args, context))
+        case None    => {
+          plugins.getBlockPlugin(plugin.name) match {
+            case Some(f)                 => html.replace("<p>{{{{" + i + "}}}}</p>", f(plugin.args, context))
+            case None if(plugin.isBlock) => html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
+            case None                    => html.replace("{{{{" + i + "}}}}", error(plugin.name + "プラグインは存在しません。"))
+          }
+        }
+      }
+    }
+    
+    html
+  }
+  
+  def processMarkdown(markdown: String): String = {
+    new PegDownProcessor(Extensions.AUTOLINKS|Extensions.WIKILINKS|Extensions.FENCED_CODE_BLOCKS)
       .markdownToHtml(markdown, new LinkRenderer(){
         override def render(node: WikiLinkNode): Rendering = {
           try {
@@ -85,24 +107,6 @@ object Processor {
             case e: java.io.UnsupportedEncodingException => throw new IllegalStateException();
           }
         }      
-      })
-    
-    val context = new PluginContext(file, value, plugins, new scala.collection.mutable.HashMap[String, Any]())
-    
-    // replace plugins
-    pluginNodes.zipWithIndex.foreach { case (plugin, i) =>
-      html = plugins.getInlinePlugin(plugin.name) match {
-        case Some(f) => html.replace("{{{{" + i + "}}}}", f(plugin.args, context))
-        case None    => {
-          plugins.getBlockPlugin(plugin.name) match {
-            case Some(f)                 => html.replace("<p>{{{{" + i + "}}}}</p>", f(plugin.args, context))
-            case None if(plugin.isBlock) => html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
-            case None                    => html.replace("{{{{" + i + "}}}}", error(plugin.name + "プラグインは存在しません。"))
-          }
-        }
-      }
-    }
-    
-    html
+      })    
   }
 }
