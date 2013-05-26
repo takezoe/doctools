@@ -33,10 +33,10 @@ object DefaultPlugins {
           context.memo.put("memo", count + 1)
           
           if(args.size == 1){
-            "<span class=\"memo\"><a name=\"%s\">%s</a></span>".format("memo-" + (count + 1), escape(args(0)))
+            "<span class=\"memo\"><a name=\"memo-%d\">%s</a></span>".format(count + 1, escape(args(0)))
           } else {
-            "<span class=\"memo %s\"><a name=\"%s\">%s: %s</a></span>".format(
-              escape(args(0)), "memo-" + (count + 1), escape(args(0)), escape(args(1)))
+            "<span class=\"memo %s\"><a name=\"memo-%d\">%s: %s</a></span>".format(
+              escape(args(0)), count + 1, escape(args(0)), escape(args(1)))
           }
         }
       }),

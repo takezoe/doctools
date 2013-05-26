@@ -64,7 +64,7 @@ Define available versions of the topic.
 
 ###memo
 
-Write a memo for a reminder. Memo is listed at the index page.
+Write a memo for a reminder. Memo is listed at the side bar.
 
 ```
 {{memo message}}

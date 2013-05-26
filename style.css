@@ -1,5 +1,32 @@
+body {
+	background-color: #efefef;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.main {
+	margin-right: 200px;
+	background-color: white;
+	margin-top: 0px;
+	padding: 10px;
+}
+
+div.sidebar {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 200px;
+	font-size: 70%;
+    word-break: break-all;
+}
+
+div.sidebar ul {
+	margin-left: 0px;
+	padding-left: 20px;
+}
+
 h1 {
-  font-size: 80%;
+  font-size: 70%;
   text-align: right;
   font-weight: normal;
 }

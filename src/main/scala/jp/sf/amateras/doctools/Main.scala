@@ -3,6 +3,7 @@ package jp.sf.amateras.doctools
 import Processor._
 import java.io._
 import Utils._
+import scala.collection.mutable.ListBuffer
 
 object Main extends App {
   
@@ -19,8 +20,17 @@ object Main extends App {
     <link href="../style.css" media="all" rel="stylesheet" type="text/css" />
     <title>%s</title>
   </head>
-  <body>%s</body>
-</html>""".format(page, process(file, source, new Plugins()))
+  <body>
+    <div class="main">%s</div>
+    <div class="sidebar"><ul>%s</ul></div>
+  </body>
+</html>""".format(page, process(file, source, new Plugins()), 
+    extractMemo(source).zipWithIndex.map { case ((name, message), i) =>
+      name match {
+        case Some(name) => "<li><a href=\"#memo-%d\">%s: %s</a></li>".format(i + 1, name, message)
+        case None => "<li><a href=\"#memo-%d\">%s</a></li>".format(i + 1, message)
+      }
+    }.mkString("\n"))
     
       write(new File(file.getParent, page + ".html"), html)
       
@@ -76,6 +86,23 @@ object Main extends App {
     } else {
       ("", value)
     }
+  }
+  
+  def extractMemo(value: String): Seq[(Option[String], String)] = {
+    val list = new ListBuffer[(Option[String], String)]()
+    value.lines.foreach { line =>
+      val m = INLINE_PLUGIN_REGEX.findAllIn(line)
+      while(m.hasNext){
+        m.next
+        val name = m.group(1)
+        val args = splitArgs(m.group(2))
+        if(name == "memo"){
+          if(args.size == 1) list.append((None, args(0)))
+          else if(args.size >= 2) list.append((Some(args(0)), args(1)))
+        }
+      }
+    }
+    list.toSeq
   }
   
   println("Completed!")

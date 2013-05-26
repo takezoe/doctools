@@ -10,7 +10,7 @@ import Utils._
 object Processor {
   
   case class PluginContext(file: java.io.File, source: String, plugins: Plugins,
-      memo: scala.collection.mutable.Map[String, Any])
+      memo: scala.collection.mutable.Map[String, Any] = new scala.collection.mutable.HashMap[String, Any]())
   
   case class PluginNode(isBlock: Boolean, name: String, args: Seq[String])
   
@@ -75,7 +75,7 @@ object Processor {
     var html = processMarkdown(markdown)
     
     // replace plugins
-    val context = new PluginContext(file, value, plugins, new scala.collection.mutable.HashMap[String, Any]())
+    val context = PluginContext(file, value, plugins)
     
     pluginNodes.zipWithIndex.foreach { case (plugin, i) =>
       html = plugins.getInlinePlugin(plugin.name) match {
