@@ -62,6 +62,19 @@ Define available versions of the topic.
 
 - version: arbitrary versions
 
+###memo
+
+Write a memo for a reminder. Memo is listed at the index page.
+
+```
+{{memo message}}
+or
+{{memo [name,] message}}
+```
+
+- name: the user name. It's used to identify whose memo. (optional)
+- message: the message
+
 ###box
 
 Display contents in the box.

@@ -96,3 +96,8 @@ table.box td ul {
 	margin: 0px;
 	padding-left: 20px;
 }
+
+span.memo {
+	background-color: yellow;
+	border: 1px solid gray;
+}

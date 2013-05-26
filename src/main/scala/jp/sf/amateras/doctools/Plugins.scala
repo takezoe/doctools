@@ -25,6 +25,21 @@ object DefaultPlugins {
           "<a name=\"%s\">%s</a>".format(escape(args(0)), escape(args(1)))
         }
       }),
+      "memo" -> ((args: Seq[String], context: PluginContext) => {
+        if(args.size == 0){
+          argumentError("memo")
+        } else {
+          val count = (context.memo.getOrElse("memo", 0)).asInstanceOf[Int]
+          context.memo.put("memo", count + 1)
+          
+          if(args.size == 1){
+            "<span class=\"memo\"><a name=\"%s\">%s</a></span>".format("memo-" + (count + 1), escape(args(0)))
+          } else {
+            "<span class=\"memo %s\"><a name=\"%s\">%s: %s</a></span>".format(
+              escape(args(0)), "memo-" + (count + 1), escape(args(0)), escape(args(1)))
+          }
+        }
+      }),
       "link" -> ((args: Seq[String], context: PluginContext) => {
         if(args.size < 1){
           argumentError("link")
