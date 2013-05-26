@@ -4,6 +4,11 @@ h1 {
   font-weight: normal;
 }
 
+h3 {
+	background-color: #88AAFF;
+	padding: 4px;
+}
+
 h4 {
 	border-bottom: 1px solid silver;
 	margin-bottom: 0px;
@@ -40,8 +45,7 @@ div.keyword {
 div.keyword span {
 	background-color: navy;
 	color: white;
-	padding-left: 4px;
-	padding-right: 4px;
+	padding: 4px;
 }
 
 div.version {
@@ -51,8 +55,7 @@ div.version {
 div.version span {
 	background-color: silver;
 	color: white;
-	padding-left: 4px;
-	padding-right: 4px;
+	padding: 4px;
 }
 
 
@@ -79,22 +82,46 @@ div.content {
 }
 
 table.box {
-	width: 100%;
+  width: 100%;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-collapse:collapse;
+  border-spacing:0;
+  empty-cells:show;
+  margin: 2px;
 }
-	
+
 table.box th {
-	width: 80px;
-	border: 1px solid navy;
-	background-color: #efefef;
+  width: 100px;
+  border-top: 1px solid #88AAFF;
+  border-left: 1px solid #88AAFF;
+  border-right:1px solid #88AAFF;
+  border-bottom:1px solid #88AAFF;
+  background-position:left top;
+  background-color: #88AAFF;
+  padding:0.3em 1em;
+  text-align:center;
 }
 
 table.box td {
-	border: 1px solid navy;
+  border-top: 1px solid #88AAFF;
+  border-left: none;
+  border-right:1px solid #88AAFF;
+  border-bottom:1px solid #88AAFF;
+  padding:0.3em 1em;
 }
 
-table.box td ul {
-	margin: 0px;
-	padding-left: 20px;
+table.box ul {
+  margin: 0px;
+  padding-left: 10px;
+}
+
+table.box p {
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-left: 0px;
 }
 
 span.memo {

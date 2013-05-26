@@ -68,7 +68,7 @@ ScalaIDE for EclipseはEclipseの更新マネージャを使用してインス�
 - Scala 2.9系向け ... http://download.scala-ide.org/releases-29/stable/site
 - Scala 2.8系向け ... http://download.scala-ide.org/releases-28/stable/site
 
-####{{anchor API_DOC, ScalaのAPIリファレンスを参照したい}}
+###{{anchor API_DOC, ScalaのAPIリファレンスを参照したい}}
 
 {{keyword Scaladoc}}
 {{version 2.9, 2.10}}
