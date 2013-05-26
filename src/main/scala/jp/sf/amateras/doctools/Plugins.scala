@@ -34,7 +34,7 @@ object DefaultPlugins {
           val source = read(context.file)
           detectAnchor(label, source) match {
             case Some(title) => "<a href=\"#%s\">%s</a>".format(label, title)
-            case None => error("%sは存在しません。".format(label))
+            case None => error("#%sは存在しません。".format(label))
           }
         } else {
           // in the other name
@@ -43,7 +43,7 @@ object DefaultPlugins {
           val source = read(new java.io.File(page + ".md"))
           detectAnchor(label, context.source) match {
             case Some(title) => "<a href=\"#%s\">%s</a>".format(label, title)
-            case None => error("%sは存在しません。".format(label))
+            case None => error("%s#%sは存在しません。".format(page + ".html", label))
           }
         }
       }),
@@ -108,13 +108,6 @@ object DefaultPlugins {
           "<th>%s</th>".format(escape(args(0))) +
           "<td>%s</td>".format(process(context.file, args(1), context.plugins)) +
           "</tr></table>"
-        }
-      }),
-      "code" -> ((args: Seq[String], context: PluginContext) => {
-        if(args.size < 1){
-          argumentError("code")
-        } else {
-          "<pre>%s</pre>".format(escape(args(0)))
         }
       })
   )

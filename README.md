@@ -3,10 +3,6 @@ doctools
 
 Tools for writing a book based on Markdown.
 
-Usage
---------
-
-
 Plugins
 --------
 
@@ -103,15 +99,3 @@ content
 ```
 
 - content: the content of the note
-
-###code
-
-Display source code in the &lt;pre&gt;. It is highlighted by google-code-prettify.
-
-```
-{{code
-content
-}}
-```
-
-- content: the source code
