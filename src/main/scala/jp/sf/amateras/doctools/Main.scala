@@ -7,7 +7,7 @@ import scala.collection.mutable.ListBuffer
 
 object Main extends App {
   
-  val indices = new File(".").listFiles.filter(_.isDirectory).sortBy(_.getName).map{ dir =>
+  val indices = new File("doc").listFiles.filter(_.isDirectory).sortBy(_.getName).map{ dir =>
     dir.listFiles.filter(_.getName.endsWith(".md")).map { file =>
       println("Processing %s...".format(file.getAbsolutePath))
       val source = read(file)
@@ -77,7 +77,7 @@ object Main extends App {
     }.mkString("")))
   }.mkString(""))
     
-  write(new File("index.html"), html)
+  write(new File("doc/index.html"), html)
   
   def extractAnchor(value: String): (String, String) = {
     if(value.startsWith("{{anchor ") && value.endsWith("}}")){
