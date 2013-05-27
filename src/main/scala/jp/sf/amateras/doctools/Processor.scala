@@ -72,13 +72,13 @@ object Processor {
     }.mkString("\n")
     
     // process markdown
-    var html = processMarkdown(markdown)
+    val html = processMarkdown(markdown)
     
     // replace plugins
     val context = PluginContext(file, value, plugins)
     
-    pluginNodes.zipWithIndex.foreach { case (plugin, i) =>
-      html = plugins.getInlinePlugin(plugin.name) match {
+    pluginNodes.zipWithIndex.foldLeft(html) { case (html, (plugin, i)) =>
+      plugins.getInlinePlugin(plugin.name) match {
         case Some(f) => html.replace("{{{{" + i + "}}}}", f(plugin.args, context))
         case None    => {
           plugins.getBlockPlugin(plugin.name) match {
@@ -89,8 +89,6 @@ object Processor {
         }
       }
     }
-    
-    html
   }
   
   def processMarkdown(markdown: String): String = {

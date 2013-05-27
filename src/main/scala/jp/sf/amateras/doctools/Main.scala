@@ -88,20 +88,17 @@ object Main extends App {
   }
   
   def extractMemo(value: String): Seq[(Option[String], String)] = {
-    val list = new ListBuffer[(Option[String], String)]()
-    value.lines.foreach { line =>
-      val m = INLINE_PLUGIN_REGEX.findAllIn(line)
-      while(m.hasNext){
-        m.next
+    value.lines.map { line =>
+      mapMatched(INLINE_PLUGIN_REGEX, line){ m =>
         val name = m.group(1)
         val args = splitArgs(m.group(2))
-        if(name == "memo"){
-          if(args.size == 1) list.append((None, args(0)))
-          else if(args.size >= 2) list.append((Some(args(0)), args(1)))
+        name match {
+          case "memo" if(args.size == 1) => Some((None, args(0)))
+          case "memo" if(args.size >= 2) => Some((Some(args(0)), args(1)))
+          case _ => None
         }
-      }
-    }
-    list.toSeq
+      }.flatten
+    }.flatten.toSeq
   }
   
   println("Completed!")

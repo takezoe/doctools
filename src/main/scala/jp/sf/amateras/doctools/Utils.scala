@@ -2,6 +2,7 @@ package jp.sf.amateras.doctools
 
 import java.io._
 import scala.util.matching.Regex
+import scala.collection.mutable.ListBuffer
 
 object Utils {
   
@@ -64,5 +65,15 @@ object Utils {
     }
     Option(title)
   }
+  
+  def mapMatched[T](regex: Regex, str: String)(f: (Regex.MatchIterator) => T) = {
+    val m = regex.findAllIn(str)
+    val list = new ListBuffer[T]()
+    while(m.hasNext){
+      m.next
+      list.append(f(m))
+    }
+    list.toSeq
+  }  
   
 }
