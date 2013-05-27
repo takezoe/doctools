@@ -1,6 +1,7 @@
 package jp.sf.amateras.doctools
 
 import java.io._
+import java.nio.file._
 import scala.util.matching.Regex
 import scala.collection.mutable.ListBuffer
 
@@ -34,46 +35,21 @@ object Utils {
     }
   }
   
-  def write(file: File, value: String): Unit = {
-    val out = new FileOutputStream(file)
-    out.write(value.getBytes("UTF-8"))
-    out.close
-  }
+  def write(file: File, value: String): Unit = Files.write(file.toPath, value.getBytes("UTF-8"))
   
   val ANCHOR_REGEX = new Regex("\\{\\{((anchor)|(caption))(\\s+(.*?))?\\}\\}")
   
   def detectAnchor(label: String, source: String): Option[String] = {
-    var title: String = null
-    source.lines.foreach { line =>
-      val m = ANCHOR_REGEX.findAllIn(line)
-      var i = 0
-      while(m.hasNext){
-        m.next
-        val name = m.group(1)
-        val args = splitArgs(m.group(5))
-        name match {
-          case "anchor"  if(args.size >= 2 && args(0) == label) => {
-            title = args(1)
-          }
-          case "caption" if(args.size >= 3 && args(2) == label) => {
-            title = args(1)
-          }
-          case _ =>
-        }
-        i = m.end
+    source.lines.map { line =>
+      ANCHOR_REGEX.findAllMatchIn(line).map{ m =>
+        (m.group(1), splitArgs(m.group(5)))
+      }.collectFirst { 
+        case ("anchor" , args) if(args.size >= 2 && args(0) == label) => args(1)
+        case ("caption", args) if(args.size >= 3 && args(2) == label) => args(1)
       }
+    }.collectFirst {
+      case Some(title) => title
     }
-    Option(title)
   }
-  
-  def mapMatched[T](regex: Regex, str: String)(f: (Regex.MatchIterator) => T) = {
-    val m = regex.findAllIn(str)
-    val list = new ListBuffer[T]()
-    while(m.hasNext){
-      m.next
-      list.append(f(m))
-    }
-    list.toSeq
-  }  
   
 }

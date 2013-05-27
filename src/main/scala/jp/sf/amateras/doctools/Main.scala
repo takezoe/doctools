@@ -89,7 +89,7 @@ object Main extends App {
   
   def extractMemo(value: String): Seq[(Option[String], String)] = {
     value.lines.map { line =>
-      mapMatched(INLINE_PLUGIN_REGEX, line){ m =>
+      INLINE_PLUGIN_REGEX.findAllMatchIn(line).map { m =>
         val name = m.group(1)
         val args = splitArgs(m.group(2))
         name match {
