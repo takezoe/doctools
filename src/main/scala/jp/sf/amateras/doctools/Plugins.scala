@@ -62,31 +62,31 @@ object DefaultPlugins {
           }
         }
       }),
-      "caption" -> ((args: Seq[String], context: PluginContext) => {
-        if(args.size < 2){
-          argumentError("caption")
-        } else {
-          val category = args(0)
-          val title    = args(1)
-          val label    = if(args.size > 2) args(2) else ""
-          
-          val captions = (context.memo.getOrElse("captions", 
-              new scala.collection.mutable.HashMap[String, Int]())
-          ).asInstanceOf[scala.collection.mutable.Map[String, Int]]
-          context.memo.put("captions", captions)
-          
-          val count = captions.getOrElse(category, 0)
-          captions.put(category, count + 1)
-          
-          if(label == ""){
-            "<span class=\"caption\">%s%d: %s</span>".format(
-              escape(category), (count + 1), escape(title))
-          } else {
-            "<span class=\"caption\"><a name=\"%s\">%s%d: %s</a></span>".format(
-              escape(label), escape(category), (count + 1), escape(title))
-          }
-        }
-      }),
+//      "caption" -> ((args: Seq[String], context: PluginContext) => {
+//        if(args.size < 2){
+//          argumentError("caption")
+//        } else {
+//          val category = args(0)
+//          val title    = args(1)
+//          val label    = if(args.size > 2) args(2) else ""
+//          
+//          val captions = (context.memo.getOrElse("captions", 
+//              new scala.collection.mutable.HashMap[String, Int]())
+//          ).asInstanceOf[scala.collection.mutable.Map[String, Int]]
+//          context.memo.put("captions", captions)
+//          
+//          val count = captions.getOrElse(category, 0)
+//          captions.put(category, count + 1)
+//          
+//          if(label == ""){
+//            "<span class=\"caption\">%s%d: %s</span>".format(
+//              escape(category), (count + 1), escape(title))
+//          } else {
+//            "<span class=\"caption\"><a name=\"%s\">%s%d: %s</a></span>".format(
+//              escape(label), escape(category), (count + 1), escape(title))
+//          }
+//        }
+//      }),
       "keyword" -> ((args: Seq[String], context: PluginContext) => {
         "<div class=\"keyword\"><span>%s</span></div>".format(args.map(escape).mkString(" | "))
       }),
@@ -124,6 +124,79 @@ object DefaultPlugins {
           "<td>%s</td>".format(process(context.file, args(1), context.plugins)) +
           "</tr></table>"
         }
+      }),
+      "figure" -> ((args: Seq[String], context: PluginContext) => {
+        if(args.size < 2){
+          argumentError("code")
+        } else {
+          val category = "図"
+          val title    = args(0)
+          val label    = if(args.size > 1) args(1) else ""
+          val count    = getCaptionCount(context, category)
+          
+          (if(label == ""){
+            "<div class=\"caption\">%s%d %s</div>".format(escape(category), count + 1, escape(title))
+          } else {
+            "<div class=\"caption\"><a name=\"%s\">%s%d %s</a></div>".format(escape(label), escape(category), count + 1, escape(title))
+          }) +
+          "<div><img src=\"%s\"></div>".format(escape(args.last))
+        }
+      }),
+      "code" -> ((args: Seq[String], context: PluginContext) => {
+        if(args.size < 2){
+          argumentError("code")
+        } else {
+          val category = "リスト"
+          val title    = args(0)
+          val label    = if(args.size > 1) args(1) else ""
+          val count    = getCaptionCount(context, category)
+          
+          (if(label == ""){
+            "<div class=\"caption\">%s%d %s</div>".format(escape(category), count + 1, escape(title))
+          } else {
+            "<div class=\"caption\"><a name=\"%s\">%s%d %s</a></div>".format(escape(label), escape(category), count + 1, escape(title))
+          }) +
+          "<pre>" + escape(args.last) + "</pre>"
+        }
+      }),
+      "table" -> ((args: Seq[String], context: PluginContext) => {
+        if(args.size < 2){
+          argumentError("table")
+        } else {
+          val category = "表"
+          val title    = args(0)
+          val label    = if(args.size > 1) args(1) else ""
+          val count    = getCaptionCount(context, category)
+          
+          (if(label == ""){
+            "<div class=\"caption\">%s%d %s</div>".format(escape(category), count + 1, escape(title))
+          } else {
+            "<div class=\"caption\"><a name=\"%s\">%s%d %s</a></div>".format(escape(label), escape(category), count + 1, escape(title))
+          }) +
+          "<table>" +
+          (args.last.lines.toList match {
+            case header :: rest => {
+              "<tr>" + (splitArgs(header).map { x => "<th>%s</th>".format(escape(x)) }.mkString("")) + "</tr>" +
+              (rest.map { row =>
+                "<tr>" + (splitArgs(row).map { x => "<td>%s</td>".format(escape(x)) }.mkString("")) + "</tr>"
+              }.mkString(""))
+            }
+            case Nil => ""
+          }) + "</table>"
+        }
       })
   )
+  
+  
+  def getCaptionCount(context: PluginContext, category: String): Int = {
+    val captions = (context.memo.getOrElse("captions", 
+        new scala.collection.mutable.HashMap[String, Int]())
+    ).asInstanceOf[scala.collection.mutable.Map[String, Int]]
+    context.memo.put("captions", captions)
+    
+    val count = captions.getOrElse(category, 0)
+    captions.put(category, count + 1)
+    count
+  }
+  
 }

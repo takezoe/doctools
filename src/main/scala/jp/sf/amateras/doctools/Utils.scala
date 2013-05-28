@@ -3,7 +3,9 @@ package jp.sf.amateras.doctools
 import java.io._
 import java.nio.file._
 import scala.util.matching.Regex
-import scala.collection.mutable.ListBuffer
+import org.supercsv.io.CsvListReader
+import org.supercsv.prefs.CsvPreference
+import scala.collection.JavaConverters._
 
 object Utils {
   
@@ -15,7 +17,14 @@ object Utils {
   
   def argumentError(pluginName: String) = error("%sプラグインの引数が不正です。".format(escape(pluginName)))
   
-  def splitArgs(value: String) = value.split(",").map(_.trim).toSeq
+  def splitArgs(value: String): Seq[String] = {
+    val reader = new CsvListReader(new StringReader(value), CsvPreference.EXCEL_PREFERENCE)
+    try {
+      reader.read.asScala.toSeq
+    } finally {
+      reader.close
+    }
+  }
   
   def escape(value: String) = value
     .replaceAll("&", "&amp;")
@@ -28,10 +37,13 @@ object Utils {
       ""
     } else {
       val in = new FileInputStream(file)
-      val buffer = new Array[Byte](in.available())
-      in.read(buffer)
-      in.close
-      new String(buffer, "UTF-8")
+      try {
+        val buffer = new Array[Byte](in.available())
+        in.read(buffer)
+        new String(buffer, "UTF-8")
+      } finally {
+        in.close
+      }
     }
   }
   
