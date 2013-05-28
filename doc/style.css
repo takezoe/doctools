@@ -108,12 +108,19 @@ div.content {
 	padding: 4px;
 }
 
+table th {
+  border: 1px solid #88AAFF;
+  background-color: #88AAFF;
+  text-align:center;
+}
+
+table td {
+  border: 1px solid #88AAFF;
+}
+
 table.box {
   width: 100%;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
+  border: none;
   border-collapse:collapse;
   border-spacing:0;
   empty-cells:show;
@@ -122,21 +129,10 @@ table.box {
 
 table.box th {
   width: 100px;
-  border-top: 1px solid #88AAFF;
-  border-left: 1px solid #88AAFF;
-  border-right:1px solid #88AAFF;
-  border-bottom:1px solid #88AAFF;
-  background-position:left top;
-  background-color: #88AAFF;
   padding:0.3em 1em;
-  text-align:center;
 }
 
 table.box td {
-  border-top: 1px solid #88AAFF;
-  border-left: none;
-  border-right:1px solid #88AAFF;
-  border-bottom:1px solid #88AAFF;
   padding:0.3em 1em;
 }
 
