@@ -18,9 +18,9 @@ Scalaの実行環境は以下のURLから入手することができます。
 
 - http://www.scala-lang.org/downloads
 
-![Alt Scalaのダウンロードページ](ScalaDownload.png)
-
-{{caption 図,Scalaのダウンロードページ}}
+{{figure Scalaのダウンロードページ
+ScalaDownload.png
+}}
 
 インストーラも用意されていますが、ここではアーカイブファイルから手動でインストールする方法を紹介します。
 
@@ -86,9 +86,9 @@ Scalaのダウンロードページ（http://www.scala-lang.org/downloads）か�
 
 - http://www.scala-lang.org/api/current/index.html
 
-![Alt Scala標準APIのリファレンス](API_Reference.png)
-
-{{caption 図,Scala標準APIのリファレンス}}
+{{figure Scala標準APIのリファレンス
+API_Reference.png
+}}
 
 ##{{anchor COMPILE_AND_RUN,コンパイルと実行}}
 
@@ -108,15 +108,13 @@ ScalaプログラムはJavaのクラスファイルにコンパイルしてか�
 
 例として以下のようなプログラムをHelloWorld.scalaというファイル名で適当な場所に保存します。日本語を含む場合、ファイルの文字コードはUTF-8で保存する必要があります。
 
-{{caption リスト,HelloWorld.scala}}
-
-```
+{{code HelloWorld.scala
 object HelloWorld {
   def main(args: Array[String]): Unit = {
     println("Hello World!")
   }
 }
-```
+}}
 
 {{note
 ScalaではJavaと違って行末に;（セミコロン）を記述する必要はありません（セミコロンを記述しても問題ありません）が、1行に複数の文を記述したい場合はセミコロンで区切ります。
@@ -190,16 +188,14 @@ C:\helloworld>
 
 mainメソッドの引数にはコマンドラインから指定した引数が文字列型の配列で渡されます。
 
-{{caption リスト,HelloWorldArgs.scala,HELLO_WORLD_ARGS_SCALA}}
-
-```
+{{code HelloWorldArgs.scala,HELLO_WORLD_ARGS_SCALA
 object HelloWorldArgs {
   def main(args: Array[String]): Unit = {
     val name: String = args(0)
     println("Hello %s!".format(name))
   }
 }
-```
+}}
 
 実行例は以下のようになります。
 
@@ -217,15 +213,14 @@ scala.Appトレイトを使用すると実行可能なScalaプログラムを簡
 
 以下は{{link HELLO_WORLD_ARGS_SCALA}}と同じ処理をAppトレイトを用いて実装した場合の例です。Appトレイトを使用することでmainメソッドの定義を省略できます。また、mainメソッドの引数として受け取っていたコマンドライン引数はAppトレイトに定義されているargsフィールドとして参照することができます。
 
-{{caption リスト,HelloWorldApp.scala}}
-
-```
+{{code HelloWorldApp.scala
 object HelloWorldApp extends App {
   val name: String = args(0)
   println("Hello %s!".format(name))
 }
-```
 }}
+}}
+
 
 ###{{anchor STRUCTURE, Scalaのディレクトリ・ファイル構成を知りたい}}
 
@@ -248,9 +243,7 @@ Javaではソースファイルやディレクトリ構造に以下のような�
 - 1つのソースファイルに定義できるpublicクラスは1つのみ
 - ソースファイル名とpublicクラスのクラス名が一致していなくてはならない
 
-{{caption リスト,1つのソースファイルに複数のクラスを定義}}
-
-```
+{{code 1つのソースファイルに複数のクラスを定義
 package jp.sf.amateras.scala
 
 class HelloWorld {
@@ -260,13 +253,11 @@ class HelloWorld {
 class HelloWorld2 {
   ...
 }
-```
+}}
 
 パッケージ宣言に中括弧（{ ... }）を使用することで1つのソースファイル内に複数のパッケージを定義することもできます。
 
-{{caption リスト,1つのソースファイルに複数のパッケージを定義}}
-
-```
+{{code 1つのソースファイルに複数のパッケージを定義
 package jp.sf.amateras.scala.helloworld1 {
   ...
 }
@@ -274,7 +265,7 @@ package jp.sf.amateras.scala.helloworld1 {
 package jp.sf.amateras.scala.helloworld1 {
   ...
 }
-```
+}}
 
 このようにScalaではファイルやディレクトリの構造と実際のクラスやパッケージとの間に物理的な関連がなく、自由度の高い定義が可能になっています。しかし、関連の薄い複数のクラスを1つのソースファイルで定義したり、ディレクトリ構造を無視したパッケージ構成を定義すると、目的のクラスがどこで定義されているのかを探し出すことが難しくなってしまいます。1つのソースファイルには関連するものをまとめ、わかりやすいファイル名を付ける、また特に理由のない限りパッケージとディレクトリの構造は一致させておくとよいでしょう。
 
@@ -300,15 +291,13 @@ C:\helloworld>
 
 また、scalaコマンドでは以下のようにScalaコードを直接記述したスクリプトファイルを実行することもできます。
 
-{{caption リスト,script.scala}}
-
-```
+{{code script.scala
 // mainメソッドを定義せずにScalaコードを記述できる
 println("Hello World!")
 
 // コマンドライン引数も取得可能
 println("Hello %s!".format(args(0)))
-```
+}}
 
 ```
 C:\scala-2.9.0.1>scala script.scala Scala
@@ -346,9 +335,7 @@ ScalaではScalaで書かれたライブラリはもちろんのこと、既存�
 
 以下の例はApache Commons IO（http://commons.apache.org/io/）を使用したScalaプログラムで、http://www.google.co.jp/ の内容を取得して標準出力に出力するというものです。
 
-{{caption リスト,Commons IOを使用したScalaプログラム（CommonsIOSample.scala）}}
-
-```
+{{code Commons IOを使用したScalaプログラム（CommonsIOSample.scala）
 import java.io._
 import java.net._
 import org.apache.commons.io._
@@ -361,7 +348,7 @@ object CommonsIOSample extends App {
     IOUtils.closeQuietly(in)
   }
 }
-```
+}}
 
 このプログラムをコンパイル、実行するにはCommons IOのjarファイルが必要になります。以下のようにscalacコマンドに-cpオプションでjarファイルのパスを指定してコンパイルします。複数のjarファイルを指定する場合は;で区切ります（LinuxやMacの場合は;でなく:で区切ります）。
 
@@ -392,11 +379,9 @@ scalaコマンドに-cpオプションを指定しない場合デフォルトで
 
 まずは実行可能なjarファイルを作成します。どのクラスを実行するかを指定するためのマニフェストファイルを以下のような内容で作成します。
 
-{{caption リスト,MANIFEST.MF}}
-
-```
+{{code MANIFEST.MF
 Main-Class: HelloWorldArgs
-```
+}}
 
 jarファイルの作成にはJDKに含まれているjarコマンドを使用します。
 
