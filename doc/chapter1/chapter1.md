@@ -1,7 +1,7 @@
-#{{anchor section1,第1章　準備}}
-##{{anchor setup,セットアップ}}
+#{{anchor 第1章　準備, section1}}
+##{{anchor セットアップ, setup}}
 
-###{{anchor SETUP_SCALA,Scalaのセットアップ}}
+###{{anchor Scalaのセットアップ, SETUP_SCALA}}
 
 {{box 関連
 - {{link SETUP_ECLIPSE}}
@@ -18,9 +18,11 @@ Scalaの実行環境は以下のURLから入手することができます。
 
 - http://www.scala-lang.org/downloads
 
-{{figure Scalaのダウンロードページ
+{{figure Scalaのダウンロードページ,DOWNLOAD_PAGE
 ScalaDownload.png
 }}
+
+詳細については{{link DOWNLOAD_PAGE}}を参照のこと。
 
 インストーラも用意されていますが、ここではアーカイブファイルから手動でインストールする方法を紹介します。
 
@@ -35,7 +37,7 @@ ScalaDownload.png
 ScalaIDE for Eclipse（{{link SETUP_ECLIPSE}}参照）を使用する場合、ScalaIDE for EclipseにScalaのランタイムが含まれているため予めScalaをインストールしておく必要はありません。また、sbt（[[Chapter11]]参照）を使用する場合もsbtの実行時にScalaランタイムがダウンロードされるため、Scalaのインストールは不要です（sbt自身の動作に必要なScalaランタイムはsbtのjarファイル内に含まれています）。
 }}
 
-###{{anchor SETUP_ECLIPSE, Eclipseのセットアップ}}
+###{{anchor Eclipseのセットアップ, SETUP_ECLIPSE}}
 
 {{keyword Eclipse,ScalaIDE for Eclipse}}
 {{version 2.9, 2.10}}
@@ -68,7 +70,7 @@ ScalaIDE for EclipseはEclipseの更新マネージャを使用してインス�
 - Scala 2.9系向け ... http://download.scala-ide.org/releases-29/stable/site
 - Scala 2.8系向け ... http://download.scala-ide.org/releases-28/stable/site
 
-###{{anchor API_DOC, ScalaのAPIリファレンスを参照したい}}
+###{{anchor ScalaのAPIリファレンスを参照したい, API_DOC}}
 
 {{keyword Scaladoc}}
 {{version 2.9, 2.10}}
@@ -90,9 +92,9 @@ Scalaのダウンロードページ（http://www.scala-lang.org/downloads）か�
 API_Reference.png
 }}
 
-##{{anchor COMPILE_AND_RUN,コンパイルと実行}}
+##{{anchor コンパイルと実行, COMPILE_AND_RUN}}
 
-###{{anchor HELLO_WORLD, Scalaプログラムを実行したい}}
+###{{anchor Scalaプログラムを実行したい, HELLO_WORLD}}
 
 {{keyword scalacコマンド,scalaコマンド}}
 {{version 2.9, 2.10}}
@@ -222,7 +224,7 @@ object HelloWorldApp extends App {
 }}
 
 
-###{{anchor STRUCTURE, Scalaのディレクトリ・ファイル構成を知りたい}}
+###{{anchor Scalaのディレクトリ・ファイル構成を知りたい, STRUCTURE}}
 
 {{keyword パッケージ}}
 {{version 2.9, 2.10}}
@@ -269,7 +271,7 @@ package jp.sf.amateras.scala.helloworld1 {
 
 このようにScalaではファイルやディレクトリの構造と実際のクラスやパッケージとの間に物理的な関連がなく、自由度の高い定義が可能になっています。しかし、関連の薄い複数のクラスを1つのソースファイルで定義したり、ディレクトリ構造を無視したパッケージ構成を定義すると、目的のクラスがどこで定義されているのかを探し出すことが難しくなってしまいます。1つのソースファイルには関連するものをまとめ、わかりやすいファイル名を付ける、また特に理由のない限りパッケージとディレクトリの構造は一致させておくとよいでしょう。
 
-###{{anchor SCRIPT, Scalaプログラムをコンパイルせずに実行したい}}
+###{{anchor Scalaプログラムをコンパイルせずに実行したい, SCRIPT}}
 
 {{keyword scalaコマンド}}
 {{version 2.9, 2.10}}
@@ -318,7 +320,7 @@ C:\helloworld>
 ```
 }}
 
-###{{anchor CLASSPATH, クラスパスを指定したい}}
+###{{anchor クラスパスを指定したい, CLASSPATH}}
 
 {{keyword scalaコマンド,scalacコマンド,クラスパス}}
 {{version 2.9, 2.10}}
@@ -366,7 +368,7 @@ C:\helloworld> scala -cp .;commons-io-2.0.1.jar CommonsIOSample
 scalaコマンドに-cpオプションを指定しない場合デフォルトでカレントディレクトリがクラスパスに含まれますが、-cpオプションを指定する場合は明示的に指定する必要があります。そのため上記の実行例では-cpオプションの先頭で.（カレントディレクトリ）を指定しているということに注意してください。
 }}
 
-###{{anchor RUN_JAR, jarファイルを実行したい}}
+###{{anchor jarファイルを実行したい, RUN_JAR}}
 
 {{keyword scalaコマンド,jarファイル}}
 {{version 2.9, 2.10}}
@@ -403,7 +405,7 @@ Hello Naoki!
 C:\helloworld>
 ```
 
-###{{anchor REPL, 対話型シェル（REPL）を使いたい}}
+###{{anchor 対話型シェル（REPL）を使いたい, REPL}}
 
 {{keyword scalaコマンド}}
 {{version 2.9, 2.10}}
