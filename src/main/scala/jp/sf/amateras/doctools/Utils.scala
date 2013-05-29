@@ -20,7 +20,7 @@ object Utils {
   def splitArgs(value: String): Seq[String] = {
     val reader = new CsvListReader(new StringReader(value), CsvPreference.EXCEL_PREFERENCE)
     try {
-      reader.read.asScala.toSeq
+      reader.read.asScala.map(_.trim).toSeq
     } finally {
       reader.close
     }
@@ -49,15 +49,14 @@ object Utils {
   
   def write(file: File, value: String): Unit = Files.write(file.toPath, value.getBytes("UTF-8"))
   
-  val ANCHOR_REGEX = new Regex("\\{\\{((anchor)|(caption))(\\s+(.*?))?\\}\\}")
+  val ANCHOR_REGEX = new Regex("\\{\\{((code)|(table)|(figure)|(anchor))(\\s+([^}]*))?")
   
   def detectAnchor(label: String, source: String): Option[String] = {
     source.lines.map { line =>
       ANCHOR_REGEX.findAllMatchIn(line).map{ m =>
-        (m.group(1), splitArgs(m.group(5)))
+        (m.group(1), splitArgs(m.group(7)))
       }.collectFirst { 
-        case ("anchor" , args) if(args.size >= 2 && args(0) == label) => args(1)
-        case ("caption", args) if(args.size >= 3 && args(2) == label) => args(1)
+        case (_, args) if(args.size >= 2 && args(1) == label) => args(0)
       }
     }.collectFirst {
       case Some(title) => title
