@@ -19,18 +19,6 @@ Define the anchor to reference from link plugin.
 - label: the label to reference from link plugin
 - title: the title
 
-###caption
-
-Add the caption to figures, tables or lists.
-
-```
-{{caption category, title[, label]}}
-```
-
-- category: the numbering category such as Figure, Table or List
-- title: the caption
-- label: the label to reference from link plugin (optional)
-
 ###link
 
 Reference the anchor or caption.
@@ -61,6 +49,47 @@ Define available versions of the topic.
 ```
 
 - version: arbitrary versions
+
+###code
+
+Display source code with the caption.
+
+```
+{{code title[, label]
+source code
+}}
+```
+
+- title: the title of the caption
+- label: the label to reference (optional)
+- source code: the source code
+
+###table
+
+Display the table from CSV with the caption.
+
+```
+{{table title[, label]
+csv
+}}
+```
+
+- title: the title of the caption
+- label: the label to reference (optional)
+- csv: the table content (first row is header)
+
+###figure
+
+Display the image with the caption.
+
+```
+{{figure title[, label]
+filename
+}}
+```
+- title: the title of the caption
+- label: the label to reference (optional)
+- filename: the filename (or path) of the image
 
 ###memo
 
