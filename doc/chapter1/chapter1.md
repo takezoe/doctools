@@ -1,5 +1,5 @@
-#{{anchor 第1章　準備, section1}}
-##{{anchor セットアップ, setup}}
+#{{anchor 第1章　準備, SECTION1}}
+##{{anchor セットアップ, SETUP}}
 
 ###{{anchor Scalaのセットアップ, SETUP_SCALA}}
 
