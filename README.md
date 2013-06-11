@@ -3,6 +3,13 @@ doctools
 
 Tools for writing a book based on Markdown.
 
+Usage
+--------
+
+ 1. Clone this repository
+ 2. Put your *.md files into doc/
+ 3. sbt run
+
 Plugins
 --------
 
@@ -13,11 +20,11 @@ Plugins below is available in your Markdown document.
 Define the anchor to reference from link plugin.
 
 ```
-{{anchor label, title}}
+{{anchor title, label}}
 ```
 
-- label: the label to reference from link plugin
 - title: the title
+- label: the label to reference from link plugin
 
 ###link
 
@@ -27,7 +34,7 @@ Reference the anchor or caption.
 {{link [page, ]label}}
 ```
 
-- page: the path of the reference page (optional)
+- page: the relative path of the reference page (optional)
 - label: the label to reference
 
 ###keyword
