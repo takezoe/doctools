@@ -67,7 +67,7 @@ object Main extends App {
     %s
   </body>
 </html>""".format(indices.flatten.map { case (file, index) =>
-    processMarkdown((index.map { case (level, label, title) =>
+    processMarkdown((index.map { case (level, title, label) =>
       level match {
         case 1 => "##[%s](%s/%s#%s)\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
         case 2 => "- [%s](%s/%s#%s)\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
