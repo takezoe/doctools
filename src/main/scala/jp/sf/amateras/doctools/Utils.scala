@@ -28,8 +28,8 @@ object Utils {
   
   def escape(value: String) = value
     .replaceAll("&", "&amp;")
-    .replaceAll("<", "&gt;")
-    .replaceAll(">", "&lt;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
     .replaceAll("\"", "&quot;")
 
   def read(file: File): String = {
