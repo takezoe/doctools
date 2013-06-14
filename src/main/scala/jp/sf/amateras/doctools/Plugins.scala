@@ -151,9 +151,9 @@ object DefaultPlugins {
           "<table>" +
           (args.last.lines.toList match {
             case header :: rest => {
-              "<tr>" + (splitArgs(header).map { x => "<th>%s</th>".format(escape(x)) }.mkString("")) + "</tr>" +
+              "<tr>" + (splitArgs(header).map { x => "<th>%s</th>".format(inlineProcess(context, x)) }.mkString("")) + "</tr>" +
               (rest.map { row =>
-                "<tr>" + (splitArgs(row).map { x => "<td>%s</td>".format(escape(x)) }.mkString("")) + "</tr>"
+                "<tr>" + (splitArgs(row).map { x => "<td>%s</td>".format(inlineProcess(context, x)) }.mkString("")) + "</tr>"
               }.mkString(""))
             }
             case Nil => ""
@@ -162,6 +162,9 @@ object DefaultPlugins {
       })
   )
   
+  def inlineProcess(context: PluginContext, value: String): String = {
+    Processor.process(context.file, value, context.plugins).replaceAll("(^<p>)|(</p>$)", "")
+  }
   
   def getCaptionCount(context: PluginContext, category: String): Int = {
     val captions = (context.memo.getOrElse("captions", 
