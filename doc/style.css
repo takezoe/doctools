@@ -90,18 +90,31 @@ div.column {
 	border: 1px solid navy;
 }
 
-div.header {
+div.column div.header {
 	border-bottom: 1px dotted navy;
 	background-color: #efefef;
 	color: navy;
 	font-weight: bold;
-	padding: 2px;
+	padding: 4px;
+	font-size: 110%;
 }
 
 div.note {
 	border: 2px dotted red;
 	padding: 2px;
 	background-color: #ffefef;
+}
+
+div.note div.header {
+	font-weight: bold;
+	margin-bottom: 8px;
+	color: red;
+	font-size: 110%;
+}
+
+div.note div.title {
+	font-weight: bold;
+	padding-left: 10px;
 }
 
 div.content {
