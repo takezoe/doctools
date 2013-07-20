@@ -82,11 +82,13 @@ object DefaultPlugins {
         }
       }),
       "note" -> ((args: Seq[String], context: PluginContext) => {
-        if(args.size < 1){
+        if(args.size < 2){
           argumentError("note")
         } else {
           "<div class=\"note\">" +
-          "<div class=\"content\">NOTE: %s</div>".format(process(context, args(0))) +
+          "<div class=\"header\">NOTE</div>" +
+          "<div class=\"title\">%s</div>".format(escape(args(0))) +
+          "<div class=\"content\">%s</div>".format(process(context.file, args(1), context.plugins)) +
           "</div>"
         }
       }),

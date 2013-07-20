@@ -142,7 +142,7 @@ content
 Write the note.
 
 ```
-{{note
+{{note title
 content
 }}
 ```
