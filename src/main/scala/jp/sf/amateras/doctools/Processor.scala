@@ -14,7 +14,10 @@ object Processor {
   
   case class PluginNode(isBlock: Boolean, name: String, args: Seq[String])
   
-  def process(file: java.io.File, value: String, plugins: Plugins): String = {
+  def process(file: java.io.File, value: String, plugins: Plugins): String =
+    process(new PluginContext(file, "", plugins), value)
+  
+  def process(currentContext: PluginContext, value: String): String = {
     var pluginNodes = new ListBuffer[PluginNode]()
     
     var blockPluginName: String = null
@@ -75,13 +78,13 @@ object Processor {
     val html = processMarkdown(markdown)
     
     // replace plugins
-    val context = PluginContext(file, value, plugins)
+    val context = currentContext.copy(source = value)
     
     pluginNodes.zipWithIndex.foldLeft(html) { case (html, (plugin, i)) =>
-      plugins.getInlinePlugin(plugin.name) match {
+      context.plugins.getInlinePlugin(plugin.name) match {
         case Some(f) => html.replace("{{{{" + i + "}}}}", f(plugin.args, context))
         case None    => {
-          plugins.getBlockPlugin(plugin.name) match {
+          context.plugins.getBlockPlugin(plugin.name) match {
             case Some(f)                 => html.replace("<p>{{{{" + i + "}}}}</p>", f(plugin.args, context))
             case None if(plugin.isBlock) => html.replace("<p>{{{{" + i + "}}}}</p>", "<p>" + error(plugin.name + "プラグインは存在しません。") + "</p>")
             case None                    => html.replace("{{{{" + i + "}}}}", error(plugin.name + "プラグインは存在しません。"))

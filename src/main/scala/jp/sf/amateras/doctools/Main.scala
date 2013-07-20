@@ -12,27 +12,6 @@ object Main extends App {
       println("Processing %s...".format(file.getAbsolutePath))
       val source = read(file)
       val page = file.getName.replaceFirst("\\.md$", "")
-      val html = 
-"""<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <link href="../style.css" media="all" rel="stylesheet" type="text/css" />
-    <title>%s</title>
-  </head>
-  <body>
-    <div class="main">%s</div>
-    <div class="sidebar"><ul>%s</ul></div>
-  </body>
-</html>""".format(page, process(file, source, new Plugins()), 
-    extractMemo(source).zipWithIndex.map { case ((name, message), i) =>
-      name match {
-        case Some(name) => "<li><a href=\"#memo-%d\">%s: %s</a></li>".format(i + 1, name, message)
-        case None => "<li><a href=\"#memo-%d\">%s</a></li>".format(i + 1, message)
-      }
-    }.mkString("\n"))
-    
-      write(new File(file.getParent, page + ".html"), html)
       
       // correct information for the index page
       val index = source.lines.filter { line =>
@@ -49,6 +28,40 @@ object Main extends App {
           (1, anchor._1, anchor._2)
         }
       }
+      
+      val html = 
+"""<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="../style.css" media="all" rel="stylesheet" type="text/css" />
+    <title>%s</title>
+  </head>
+  <body>
+    <div class="main">%s</div>
+    <div class="sidebar">
+      %s
+      <p>Memo</p>
+      <ul>%s</ul>
+    </div>
+  </body>
+</html>""".format(page, process(file, source, new Plugins()), 
+    processMarkdown((index.map { case (level, title, label) =>
+      level match {
+        case 1 => "%s\n\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
+        case 2 => "- [%s](%s/%s#%s)\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
+        case 3 => "    - [%s](%s/%s#%s)\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
+      }
+    }.mkString(""))),
+    extractMemo(source).zipWithIndex.map { case ((name, message), i) =>
+      name match {
+        case Some(name) => "<li><a href=\"#memo-%d\">%s: %s</a></li>".format(i + 1, name, message)
+        case None => "<li><a href=\"#memo-%d\">%s</a></li>".format(i + 1, message)
+      }
+    }.mkString("\n"))
+    
+      write(new File(file.getParent, page + ".html"), html)
+      
       (file, index)
     }
   }
