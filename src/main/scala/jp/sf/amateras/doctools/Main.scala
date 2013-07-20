@@ -48,9 +48,9 @@ object Main extends App {
 </html>""".format(page, process(file, source, new Plugins()), 
     processMarkdown((index.map { case (level, title, label) =>
       level match {
-        case 1 => "%s\n\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
-        case 2 => "- [%s](%s/%s#%s)\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
-        case 3 => "    - [%s](%s/%s#%s)\n".format(title, file.getParentFile.getName, file.getName.replaceFirst("\\.md$", ".html"), label)
+        case 1 => "%s\n\n".format(title)
+        case 2 => "- [%s](#%s)\n".format(title, label)
+        case 3 => "    - [%s](#%s)\n".format(title, label)
       }
     }.mkString(""))),
     extractMemo(source).zipWithIndex.map { case ((name, message), i) =>
