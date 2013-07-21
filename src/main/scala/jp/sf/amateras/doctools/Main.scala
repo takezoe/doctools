@@ -27,7 +27,7 @@ object Main extends App {
           val anchor = extractAnchor(line.substring(1).trim)
           (1, anchor._1, anchor._2)
         }
-      }
+      }.toList
       
       val html = 
 """<!DOCTYPE html>
