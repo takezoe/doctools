@@ -88,7 +88,7 @@ object DefaultPlugins {
           "<div class=\"note\">" +
           "<div class=\"header\">NOTE</div>" +
           "<div class=\"title\">%s</div>".format(escape(args(0))) +
-          "<div class=\"content\">%s</div>".format(process(context.file, args(1), context.plugins)) +
+          "<div class=\"content\">%s</div>".format(process(context, args(1))) +
           "</div>"
         }
       }),
