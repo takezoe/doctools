@@ -5,27 +5,40 @@ body {
 }
 
 div.main {
-	margin-left: 200px;
 	background-color: white;
 	margin-top: 0px;
 	padding: 10px;
 }
 
-div.sidebar {
-	position        : absolute;
-	top             : 0px;
-	left            : 0px;
-	width           : 200px;
-	font-size       : x-small;
-	padding         : 2pt;
-	border-right    : #AABBFF 1px solid;
-	border-bottom   : #AABBFF 1px solid;
-	color           : #000000;
-	background-color: #efefef;
-	word-break      : break-all;
-	overflow: scroll;
-	height: 100%;
-	position: fixed;
+@media screen and (min-width: 720px) {
+	div.main {
+		margin-left: 200px;
+	}
+}
+
+@media screen and (min-width: 720px) {
+	div.sidebar {
+		position        : absolute;
+		top             : 0px;
+		left            : 0px;
+		width           : 200px;
+		font-size       : x-small;
+		padding         : 2pt;
+		border-right    : #AABBFF 1px solid;
+		border-bottom   : #AABBFF 1px solid;
+		color           : #000000;
+		background-color: #efefef;
+		word-break      : break-all;
+		overflow: scroll;
+		height: 100%;
+		position: fixed;
+	}
+}
+
+@media screen and (max-width: 720px) {
+	div.sidebar {
+		display: none;
+	}
 }
 
 div.sidebar ul {
@@ -75,9 +88,12 @@ pre {
 	overflow: auto;
 }
 
+@media screen and (max-width: 720px) {
+	left: 210px;
+}
+
 div.keyword {
 	position: absolute;
-	left: 210px;
 }
 
 div.keyword span {
