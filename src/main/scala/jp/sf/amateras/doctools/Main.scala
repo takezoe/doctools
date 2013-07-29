@@ -34,6 +34,7 @@ object Main extends App {
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
     <link href="../style.css" media="all" rel="stylesheet" type="text/css" />
     <title>%s</title>
   </head>
