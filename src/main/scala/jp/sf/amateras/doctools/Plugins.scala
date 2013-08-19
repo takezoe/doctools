@@ -77,7 +77,7 @@ object DefaultPlugins {
         } else {
           "<div class=\"column\">" +
           "<div class=\"header\">COLUMN %s</div>".format(escape(args(0))) +
-          "<div class=\"content\">%s</div>".format(process(context.file, args(1), context.plugins)) +
+          "<div class=\"content\">%s</div>".format(process(context, args(1))) +
           "</div>"
         }
       }),
@@ -88,7 +88,7 @@ object DefaultPlugins {
           "<div class=\"note\">" +
           "<div class=\"header\">NOTE</div>" +
           "<div class=\"title\">%s</div>".format(escape(args(0))) +
-          "<div class=\"content\">%s</div>".format(process(context.file, args(1), context.plugins)) +
+          "<div class=\"content\">%s</div>".format(process(context, args(1))) +
           "</div>"
         }
       }),
@@ -98,7 +98,7 @@ object DefaultPlugins {
         } else {
           "<table class=\"box\"><tr>" +
           "<th>%s</th>".format(escape(args(0))) +
-          "<td>%s</td>".format(process(context.file, args(1), context.plugins)) +
+          "<td>%s</td>".format(process(context, args(1))) +
           "</tr></table>"
         }
       }),
@@ -165,7 +165,7 @@ object DefaultPlugins {
   )
   
   def inlineProcess(context: PluginContext, value: String): String = {
-    Processor.process(context.file, value, context.plugins).replaceAll("(^<p>)|(</p>$)", "")
+    Processor.process(context, value).replaceAll("(^<p>)|(</p>$)", "")
   }
   
   def getCaptionCount(context: PluginContext, category: String): Int = {
