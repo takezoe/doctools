@@ -55,9 +55,9 @@ object DefaultPlugins {
           // in the other name
           val page  = args(0)
           val label = args(1)
-          val source = read(new java.io.File(page + ".md"))
-          detectAnchor(label, context.source) match {
-            case Some(title) => "<a href=\"#%s\">%s</a>".format(label, title)
+          val source = read(new java.io.File(context.file.getParent(), page + ".md"))
+          detectAnchor(label, source) match {
+            case Some(title) => "<a href=\"%s#%s\">%s</a>".format(page + ".html", label, title)
             case None => error("%s#%sは存在しません。".format(page + ".html", label))
           }
         }
