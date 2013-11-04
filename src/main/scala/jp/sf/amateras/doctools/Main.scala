@@ -15,7 +15,7 @@ object Main extends App {
       
       // correct information for the index page
       val index = source.lines.filter { line =>
-        line.matches("^#[^#]+") || line.matches("^##[^#]+") || line.matches("^###[^#]+")
+        (line.matches("^#[^#]+") || line.matches("^##[^#]+") || line.matches("^###[^#]+")) && line.indexOf("{{anchor") >= 0
       }.map { line =>
         if(line.startsWith("###")){
           val anchor = extractAnchor(line.substring(3).trim)
