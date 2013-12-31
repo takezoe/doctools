@@ -13,7 +13,10 @@ object Utils {
 
   val BLOCK_PLUGIN_REGEX = new Regex("^\\{\\{([a-z_]+?)(\\s+(.*?))?$")
   
-  def error(message: String) = "<span class=\"error\">%s</span>".format(message)
+  def error(message: String) = {
+    println("[WARN]" + message)
+    "<span class=\"error\">%s</span>".format(message)
+  }
   
   def argumentError(pluginName: String) = error("%sプラグインの引数が不正です。".format(escape(pluginName)))
   
