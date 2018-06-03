@@ -15,7 +15,7 @@ Plugins
 
 Plugins below is available in your Markdown document.
 
-###anchor
+### anchor
 
 Define the anchor to reference from link plugin.
 
@@ -26,7 +26,7 @@ Define the anchor to reference from link plugin.
 - title: the title
 - label: the label to reference from link plugin
 
-###link
+### link
 
 Reference the anchor or caption.
 
@@ -37,7 +37,7 @@ Reference the anchor or caption.
 - page: the relative path of the reference page (optional)
 - label: the label to reference
 
-###keyword
+### keyword
 
 Define keywords of the topic.
 
@@ -47,7 +47,7 @@ Define keywords of the topic.
 
 - keyword: arbitrary keywords
 
-###version
+### version
 
 Define available versions of the topic.
 
@@ -57,7 +57,7 @@ Define available versions of the topic.
 
 - version: arbitrary versions
 
-###code
+### code
 
 Display source code with the caption.
 
@@ -71,7 +71,7 @@ source code
 - label: the label to reference (optional)
 - source code: the source code
 
-###table
+### table
 
 Display the table from CSV with the caption.
 
@@ -85,7 +85,7 @@ csv
 - label: the label to reference (optional)
 - csv: the table content (first row is header)
 
-###figure
+### figure
 
 Display the image with the caption.
 
@@ -98,7 +98,7 @@ filename
 - label: the label to reference (optional)
 - filename: the filename (or path) of the image
 
-###memo
+### memo
 
 Write a memo for a reminder. Memo is listed at the side bar.
 
@@ -111,7 +111,7 @@ or
 - name: the user name. It's used to identify whose memo. (optional)
 - message: the message
 
-###box
+### box
 
 Display contents in the box.
 
@@ -124,7 +124,7 @@ content
 - title: the title of the box
 - content: the content of the box
 
-###column
+### column
 
 Write the column.
 
@@ -137,7 +137,7 @@ content
 - title: the title of the column
 - content: the content of the column
 
-###note
+### note
 
 Write the note.
 
